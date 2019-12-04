@@ -5,127 +5,125 @@
  * Date: 2019/11/16
  * Time: 11:02
  */
-include("../util/Connection.php");
-$conn = connect();
-mysqli_close($conn);
+session_start();
+if(isset($_SESSION["username"])) {
+    ?>
+    <html>
 
-?>
-<html>
-
-<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
-<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
-<script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 
-<title>
-    选课
-</title>
+    <title>
+        选课
+    </title>
 
-<body clss="container">
-<!-- 导航栏 -->
-<ul class="nav nav-pills">
-    <li class="nav-item">
-        <a class="nav-link active" href="SectionChoosing.php">选课</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="SectionApplication.php">选课事务申请</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="GradeChecking.php">成绩查询</a>
-    </li>
-</ul>
+    <body clss="container">
+    <!-- 导航栏 -->
+    <ul class="nav nav-pills">
+        <li class="nav-item">
+            <a class="nav-link active" href="SectionChoosing.php">选课</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="SectionApplication.php">选课事务申请</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="GradeChecking.php">成绩查询</a>
+        </li>
+    </ul>
 
-<!--
-    <div >
-        <table class="table">
-            <thead>
-            <tr>
-                <th>节次\周次</th>
-                <th>周一</th>
-                <th>周二</th>
-                <th>周三</th>
-                <th>周四</th>
-                <th>周五</th>
-                <th>周六</th>
-                <th>周日</th>
-            </tr>
-            </thead>
+    <!--
+        <div >
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>节次\周次</th>
+                    <th>周一</th>
+                    <th>周二</th>
+                    <th>周三</th>
+                    <th>周四</th>
+                    <th>周五</th>
+                    <th>周六</th>
+                    <th>周日</th>
+                </tr>
+                </thead>
 
-            <tbody>
-            <tr>
-                <td>一</td>
-            </tr>
-            <tr>
-                <td>二</td>
-                <td>Mary</td>
-                <td>Moe</td>
-                <td>mary@example.com</td>
-            </tr>
-            <tr>
-                <td>三</td>
-                <td>July</td>
-                <td>Dooley</td>
-                <td>july@example.com</td>
-            </tr>
-            <tr>
-                <td>四</td>
-                <td>July</td>
-                <td>Dooley</td>
-                <td>july@example.com</td>
-            </tr>
-            <tr>
-                <td>五</td>
-                <td>Mary</td>
-                <td>Moe</td>
-                <td>mary@example.com</td>
-            </tr>
-            <tr>
-                <td>六</td>
-                <td>Mary</td>
-                <td>Moe</td>
-                <td>mary@example.com</td>
-            </tr>
-            <tr>
-                <td>七</td>
-                <td>Mary</td>
-                <td>Moe</td>
-                <td>mary@example.com</td>
-            </tr>
-            <tr>
-                <td>八</td>
-                <td>Mary</td>
-                <td>Moe</td>
-                <td>mary@example.com</td>
-            </tr>
-            <tr>
-                <td>九</td>
-                <td>Mary</td>
-                <td>Moe</td>
-                <td>mary@example.com</td>
-            </tr>
-            <tr>
-                <td>十</td>
-                <td>Mary</td>
-                <td>Moe</td>
-                <td>mary@example.com</td>
-            </tr>
-            <tr>
-                <td>十一</td>
-                <td>Mary</td>
-                <td>Moe</td>
-                <td>mary@example.com</td>
-            </tr>
-            <tr>
-                <td>十二</td>
-                <td>Mary</td>
-                <td>Moe</td>
-                <td>mary@example.com</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
--->
+                <tbody>
+                <tr>
+                    <td>一</td>
+                </tr>
+                <tr>
+                    <td>二</td>
+                    <td>Mary</td>
+                    <td>Moe</td>
+                    <td>mary@example.com</td>
+                </tr>
+                <tr>
+                    <td>三</td>
+                    <td>July</td>
+                    <td>Dooley</td>
+                    <td>july@example.com</td>
+                </tr>
+                <tr>
+                    <td>四</td>
+                    <td>July</td>
+                    <td>Dooley</td>
+                    <td>july@example.com</td>
+                </tr>
+                <tr>
+                    <td>五</td>
+                    <td>Mary</td>
+                    <td>Moe</td>
+                    <td>mary@example.com</td>
+                </tr>
+                <tr>
+                    <td>六</td>
+                    <td>Mary</td>
+                    <td>Moe</td>
+                    <td>mary@example.com</td>
+                </tr>
+                <tr>
+                    <td>七</td>
+                    <td>Mary</td>
+                    <td>Moe</td>
+                    <td>mary@example.com</td>
+                </tr>
+                <tr>
+                    <td>八</td>
+                    <td>Mary</td>
+                    <td>Moe</td>
+                    <td>mary@example.com</td>
+                </tr>
+                <tr>
+                    <td>九</td>
+                    <td>Mary</td>
+                    <td>Moe</td>
+                    <td>mary@example.com</td>
+                </tr>
+                <tr>
+                    <td>十</td>
+                    <td>Mary</td>
+                    <td>Moe</td>
+                    <td>mary@example.com</td>
+                </tr>
+                <tr>
+                    <td>十一</td>
+                    <td>Mary</td>
+                    <td>Moe</td>
+                    <td>mary@example.com</td>
+                </tr>
+                <tr>
+                    <td>十二</td>
+                    <td>Mary</td>
+                    <td>Moe</td>
+                    <td>mary@example.com</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    -->
     <h2>已选课程</h2>
     <div>
         <table class="table">
@@ -192,6 +190,11 @@ mysqli_close($conn);
         </table>
 
     </div>
-</body>
+    </body>
 
-</html>
+    </html>
+    <?php
+} else {
+    echo "请登录";
+    header('refresh:3; url=Login.html');
+}
