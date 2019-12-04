@@ -5,7 +5,7 @@
  * Date: 2019/11/16
  * Time: 11:02
  */
-include("../util/DataBaseConn.php");
+include("../util/Connection.php");
 $conn = connect();
 mysqli_close($conn);
 

@@ -16,22 +16,28 @@
     <div class="container mt-3">
         <h1>登录</h1>
 
-
-        <form action="Login.php">
+        <form action="Login.php" method="post">
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text">账户</span>
                 </div>
-                <input type="text" class="form-control" placeholder="Username" id="usr">
+                <input type="text" class="form-control" placeholder="Username" id="usr" name="username">
             </div>
 
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text">密码</span>
                 </div>
-                <input type="password" class="form-control" placeholder="Password" id="pwd">
+                <input type="password" class="form-control" placeholder="Password" id="pwd" name ="password">
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+
+            <div class="input-group mb-3">
+                <div class="radio">
+                    <label><input type="checkbox" name="remember" value="true">记住我</label>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" name="login">Submit</button>
         </form>
     </div>
 </body>
