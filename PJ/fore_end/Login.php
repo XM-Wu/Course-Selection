@@ -17,6 +17,7 @@ if (isset($_POST['login'])) {
         $mysqli = connect();
         if (correct_account($mysqli, $username, $password)) {
             $_SESSION['username'] = $username;
+            $_SESSION['type'] = getAccountType($mysqli, $username);
             // 设置Cookie并设置保留7天
             if ($_POST['remember'] == "true") {
                 setcookie('username', $username, time() + 7 * 24 * 60 * 60);

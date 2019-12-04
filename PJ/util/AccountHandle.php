@@ -16,3 +16,12 @@ function correct_account($mysqli, $usr, $pwd){
 
     return True;
 }
+
+function getAccountType($mysqli, $user){
+    $stmt = $mysqli->prepare("select acc_type from account where uid =?");
+    $stmt->bind_param("s", $user);
+    $stmt->execute();
+    $stmt->bind_result($u);
+    $stmt->fetch();
+    return $u;
+}
