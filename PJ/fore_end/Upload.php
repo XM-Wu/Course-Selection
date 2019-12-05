@@ -3,9 +3,9 @@
 <body>
 <h1>Handling file...</h1>
 <?php
-include_once ("../lib/Classes/PHPExcel.php");
+include_once("../lib/Classes/PHPExcel.php");
 include_once('../lib/Classes/PHPExcel/IOFactory.php');
-include_once ("../util/Connection.php");
+include_once("../util/Connection.php");
 
 if ($_FILES['excel']['error'] > 0) {
     echo "Something wrong!";
@@ -13,12 +13,11 @@ if ($_FILES['excel']['error'] > 0) {
 }
 
 $arr = explode('.', $_FILES["excel"]["name"]);
-$su = $arr[count($arr)-1];
+$su = $arr[count($arr) - 1];
 if ($su != 'xls' && $su != 'xlsx') {
     echo 'The file is not a excel file';
     header('refresh:3; url=InputData.php');
-}
-else {
+} else {
     $path = $_FILES['excel']['tmp_name'];
     $xlsReader = PHPExcel_IOFactory::createReader('Excel2007');
     $xlsReader->setReadDataOnly(true);
@@ -27,13 +26,13 @@ else {
     $data = $Sheets->getSheet(0)->toArray();
     $db = connect();
 
-    switch ($_POST["optradio"]){
+    switch ($_POST["optradio"]) {
         case 0: // student info
             $db->autocommit(false); // 开启事务
             $need_roll_back = false;
 
             foreach ($data as $v) {
-                if(count($v) != 6){ // 某行数据量不匹配
+                if (count($v) != 6) { // 某行数据量不匹配
                     $need_roll_back = true;
                     break;
                 }
@@ -55,7 +54,7 @@ else {
                 }
             }
 
-            if($need_roll_back) $db->rollback();
+            if ($need_roll_back) $db->rollback();
             else $db->commit();
             $db->autocommit(true); // 关闭事务
 
@@ -65,8 +64,9 @@ else {
             $need_roll_back = false;
 
             foreach ($data as $v) {
-                if(count($v) != 4){ // 某行数据量不匹配
+                if (count($v) != 4) { // 某行数据量不匹配
                     $need_roll_back = true;
+                    echo_error(0);
                     break;
                 }
                 $acc_type = "teacher";
@@ -75,6 +75,7 @@ else {
                 $result = $stmt->execute();
                 if (!$result) {
                     $need_roll_back = true;
+                    echo_error(1);
                     break;
                 }
 
@@ -82,14 +83,17 @@ else {
                 $stmt->bind_param("ssss", $v[0], $v[1], $v[2], $v[3]);
                 $result = $stmt->execute();
                 if (!$result) {
+                    echo $v[0] . " " . $v[1] . " " . $v[2] . " " . $v[3] . "\n";
                     $need_roll_back = true;
+                    echo_error(2);
                     break;
                 }
             }
 
-            if($need_roll_back) $db->rollback();
+            if ($need_roll_back) $db->rollback();
             else $db->commit();
             $db->autocommit(true); // 关闭事务
+
             break;
         case 2: // course info
             //$table = "section";
@@ -100,9 +104,29 @@ else {
 
     $db->close();
     unlink($path);
-
-    echo 'uploaded!';
+    if (!$need_roll_back)
+        echo 'uploaded!';
+    else
+        echo '数据已回滚';
 }
+
+function echo_error($seq)
+{
+    switch ($seq) {
+        case 0:
+            echo "数据量不匹配\n";
+            break;
+        case 1:
+            echo "账户创建错误，请查看是否有重复学/工号\n";
+            break;
+        case 2:
+            echo "数据导入错误，查看数据是否存在\n";
+            break;
+        default:
+            echo "unknown error\n";
+    }
+}
+
 ?>
 
 </body>
