@@ -98,6 +98,8 @@ if ($su != 'xls' && $su != 'xlsx') {
         case 2: // course info
             //$table = "section";
             break;
+        case 3:
+            break;
         default:
             break;
     }
