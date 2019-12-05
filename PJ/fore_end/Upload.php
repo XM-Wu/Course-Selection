@@ -19,39 +19,83 @@ if ($su != 'xls' && $su != 'xlsx') {
     header('refresh:3; url=InputData.php');
 }
 else {
-    $table = "account";
-    echo $table."\n";
-    switch ($_POST["optradio"]){
-        case 0:
-            //$table = "student";
-            break;
-        case 1:
-            //$table = "teacher";
-            break;
-        case 2:
-            //$table = "section";
-            break;
-        default:
-            break;
-    }
     $path = $_FILES['excel']['tmp_name'];
-
     $xlsReader = PHPExcel_IOFactory::createReader('Excel2007');
     $xlsReader->setReadDataOnly(true);
     $xlsReader->setLoadSheetsOnly(true);
     $Sheets = $xlsReader->load($path);
     $data = $Sheets->getSheet(0)->toArray();
-
     $db = connect();
-    $stmt = $db->prepare("insert into account (uid, password, acc_type) values (?, ?, ?)");
-    foreach ($data as $v) {
-        if(count($v) != 3) exit(1);
-        $stmt->bind_param("sss", $v[0], $v[1], $v[2]);
-        $result = $stmt->execute();
 
-        if (!$result) {
-            array_push($arr, $v);
-        }
+    switch ($_POST["optradio"]){
+        case 0: // student info
+            $db->autocommit(false); // 开启事务
+            $need_roll_back = false;
+
+            foreach ($data as $v) {
+                if(count($v) != 6){ // 某行数据量不匹配
+                    $need_roll_back = true;
+                    break;
+                }
+                $acc_type = "student";
+                $stmt = $db->prepare("insert into account (uid, password, acc_type) values (?, ?, ?)");
+                $stmt->bind_param("sss", $v[0], $v[0], $acc_type); // 初始密码设为账号名
+                $result = $stmt->execute();
+                if (!$result) {
+                    $need_roll_back = true;
+                    break;
+                }
+
+                $stmt = $db->prepare("insert into student (student_id, name, enrollment, major, credit, gpa) values (?, ?, ?, ?, ?, ?)");
+                $stmt->bind_param("ssssss", $v[0], $v[1], $v[2], $v[3], $v[4], $v[5]);
+                $result = $stmt->execute();
+                if (!$result) {
+                    $need_roll_back = true;
+                    break;
+                }
+            }
+
+            if($need_roll_back) $db->rollback();
+            else $db->commit();
+            $db->autocommit(true); // 关闭事务
+
+            break;
+        case 1: // teacher info
+            $db->autocommit(false); // 开启事务
+            $need_roll_back = false;
+
+            foreach ($data as $v) {
+                if(count($v) != 4){ // 某行数据量不匹配
+                    $need_roll_back = true;
+                    break;
+                }
+                $acc_type = "teacher";
+                $stmt = $db->prepare("insert into account (uid, password, acc_type) values (?, ?, ?)");
+                $stmt->bind_param("sss", $v[0], $v[0], $acc_type); // 初始密码设为账号名
+                $result = $stmt->execute();
+                if (!$result) {
+                    $need_roll_back = true;
+                    break;
+                }
+
+                $stmt = $db->prepare("insert into teacher (teacher_id, name, title, department) values (?, ?, ?, ?)");
+                $stmt->bind_param("ssss", $v[0], $v[1], $v[2], $v[3]);
+                $result = $stmt->execute();
+                if (!$result) {
+                    $need_roll_back = true;
+                    break;
+                }
+            }
+
+            if($need_roll_back) $db->rollback();
+            else $db->commit();
+            $db->autocommit(true); // 关闭事务
+            break;
+        case 2: // course info
+            //$table = "section";
+            break;
+        default:
+            break;
     }
 
     $db->close();

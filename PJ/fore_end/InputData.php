@@ -24,13 +24,13 @@ session_start();
             </div>
             <div>
                 <div class="radio">
-                    <label><input type="radio" name="optradio" value="0">导入学生数据</label>
+                    <label><input type="radio" name="optradio" value="0">导入学生数据 (学号, 名字, 入学年份，专业，学分，gpa)</label>
                 </div>
                 <div class="radio">
-                    <label><input type="radio" name="optradio" value="1">导入老师数据</label>
+                    <label><input type="radio" name="optradio" value="1">导入老师数据 (教师工号, 教师名, title, department)</label>
                 </div>
                 <div class="radio">
-                    <label><input type="radio" name="optradio" value="2">导入课程数据</label>
+                    <label><input type="radio" name="optradio" value="2">导入课程数据 (课程代码，开课代码，教师工号，年份，学期[XXXX年度第一/第二/寒假/暑假学期]，上课时间（周一:第1,2节;周X:第X,X节)</label>
                 </div>
             </div>
 
