@@ -30,7 +30,7 @@ session_start();
                     <label><input type="radio" name="optradio" value="1">导入老师数据 (教师工号, 教师名, title, department)</label>
                 </div>
                 <div class="radio">
-                    <label><input type="radio" name="optradio" value="2">开课 (课程代码，开课代码，教师工号，年份，学期[第一/第二/寒假/暑假学期]，上课时间（周一:第1,2节;周X:第X,X节，最大人数，教室）</label>
+                    <label><input type="radio" name="optradio" value="2">开课 (课程代码，开课代码，教师工号，年份，学期[第一/第二/寒假/暑假学期]，上课时间（周一:第1,2节;周X:第X,X节），最大人数，教室，考核方式(exam/paper)</label>
                 </div>
                 <div class="radio">
                     <label><input type="radio" name="optradio" value="3">登分</label>

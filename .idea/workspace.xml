@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7a15f525-5551-4d17-9b30-fa798703d7d9" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PJ/fore_end/InputData.php" beforeDir="false" afterPath="$PROJECT_DIR$/PJ/fore_end/InputData.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PJ/fore_end/Upload.php" beforeDir="false" afterPath="$PROJECT_DIR$/PJ/fore_end/Upload.php" afterDir="false" />
     </list>
@@ -36,8 +35,8 @@
       <file leaf-file-name="InputData.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/PJ/fore_end/InputData.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="561">
-              <caret line="54" column="25" lean-forward="true" selection-start-line="54" selection-start-column="25" selection-end-line="54" selection-end-column="25" />
+            <state relative-caret-position="391">
+              <caret line="29" column="86" selection-start-line="29" selection-start-column="86" selection-end-line="29" selection-end-column="86" />
             </state>
           </provider>
         </entry>
@@ -54,8 +53,8 @@
       <file leaf-file-name="Upload.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PJ/fore_end/Upload.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
-              <caret line="140" column="107" selection-start-line="140" selection-start-column="107" selection-end-line="140" selection-end-column="107" />
+            <state relative-caret-position="238">
+              <caret line="153" column="49" selection-start-line="153" selection-start-column="49" selection-end-line="153" selection-end-column="49" />
             </state>
           </provider>
         </entry>
@@ -112,8 +111,8 @@
         <option value="$PROJECT_DIR$/PJ/util/AccountHandle.php" />
         <option value="$PROJECT_DIR$/PJ/fore_end/InputData.html" />
         <option value="$PROJECT_DIR$/PJ/fore_end/Home.php" />
-        <option value="$PROJECT_DIR$/PJ/fore_end/InputData.php" />
         <option value="$PROJECT_DIR$/PJ/fore_end/Upload.php" />
+        <option value="$PROJECT_DIR$/PJ/fore_end/InputData.php" />
       </list>
     </option>
   </component>
@@ -175,6 +174,13 @@
               <item name="Course-Selection" type="462c0819:PsiDirectoryNode" />
               <item name="PJ" type="462c0819:PsiDirectoryNode" />
               <item name="resource" type="462c0819:PsiDirectoryNode" />
+              <item name="input_file" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Course-Selection" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Course-Selection" type="462c0819:PsiDirectoryNode" />
+              <item name="PJ" type="462c0819:PsiDirectoryNode" />
+              <item name="resource" type="462c0819:PsiDirectoryNode" />
               <item name="pic" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -197,12 +203,13 @@
     <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\course\DataBase\Course-Selection\PJ\resource\data_base" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\course\DataBase\Course-Selection\PJ\resource\input_file" />
       <recent name="D:\course\DataBase\Course-Selection\PJ\resource\pic" />
       <recent name="D:\course\DataBase\Course-Selection\PJ\util" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\course\DataBase\Course-Selection\PJ\resource\data_base" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -229,12 +236,12 @@
       <updated>1575437955541</updated>
       <workItem from="1575437956948" duration="25715000" />
       <workItem from="1575526533958" duration="21103000" />
-      <workItem from="1575594913882" duration="4439000" />
+      <workItem from="1575594913882" duration="6216000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="51257000" />
+    <option name="totallyTimeSpent" value="53034000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -247,9 +254,10 @@
       <window_info anchor="bottom" id="Version Control" order="5" />
       <window_info anchor="bottom" id="Run" order="8" />
       <window_info anchor="bottom" id="Terminal" order="4" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="0" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="0" />
+      <window_info active="true" anchor="bottom" id="Find" order="7" visible="true" weight="0.30957446" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="0" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="9" weight="0.4" />
@@ -259,7 +267,6 @@
       <window_info anchor="right" id="Ant Build" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="6" />
       <window_info anchor="bottom" id="Cvs" order="10" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="7" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -443,13 +450,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/PJ/util/Connection.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="9" selection-start-line="7" selection-start-column="9" selection-end-line="7" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/PJ/fore_end/Home.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="822">
@@ -471,17 +471,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/PJ/util/Connection.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="9" selection-start-line="7" selection-start-column="9" selection-end-line="7" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/PJ/fore_end/Upload.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="140" column="107" selection-start-line="140" selection-start-column="107" selection-end-line="140" selection-end-column="107" />
+        <state relative-caret-position="238">
+          <caret line="153" column="49" selection-start-line="153" selection-start-column="49" selection-end-line="153" selection-end-column="49" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/PJ/fore_end/InputData.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="54" column="25" lean-forward="true" selection-start-line="54" selection-start-column="25" selection-end-line="54" selection-end-column="25" />
+        <state relative-caret-position="391">
+          <caret line="29" column="86" selection-start-line="29" selection-start-column="86" selection-end-line="29" selection-end-column="86" />
         </state>
       </provider>
     </entry>

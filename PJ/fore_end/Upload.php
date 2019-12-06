@@ -100,7 +100,7 @@ if ($su != 'xls' && $su != 'xlsx') {
             $need_roll_back = false;
 
             foreach ($data as $v) {
-                if (count($v) != 8) { // 某行数据量不匹配
+                if (count($v) != 9) { // 某行数据量不匹配
                     $need_roll_back = true;
                     echo_error(0);
                     break;
@@ -138,7 +138,7 @@ if ($su != 'xls' && $su != 'xlsx') {
                         while($stmt->fetch()){
                             if($teacher = $v[2] || $classroom= $v[7]){
                                 $need_roll_back = true;
-                                printf("数据行：%s,%s,%s,%s,%s,%s,%s,%s\n", $v[0], $v[1], $v[2], $v[3], $v[4], $v[5],$v[6],$v[7]);
+                                printf("数据行：%s,%s,%s,%s,%s,%s,%s,%s,%s\n", $v[0], $v[1], $v[2], $v[3], $v[4], $v[5],$v[6],$v[7],$v[8]);
                                 echo_error(4);
                                 break;
                             }
@@ -150,9 +150,21 @@ if ($su != 'xls' && $su != 'xlsx') {
                 }
                 if ($need_roll_back) break;
 
+                //新建考核方式数据
+                $stmt = $db->prepare("insert into assessment (type) values (?)");
+                $stmt->bind_param("s", $v[8]);
+                $stmt->execute();
+                if(mysqli_error($db) != null){
+                    echo mysqli_error($db);
+                    $need_roll_back = true;
+                    echo_error(5);
+                    break;
+                }
+                $last_id = mysqli_insert_id($db);
+
                 //插入section数据
-                $stmt = $db->prepare("insert into `section` (course_id, section_id, year, semester, teacher_id, classroom_code, max_stu) values (?,?,?,?,?,?,?)");
-                $stmt->bind_param("ssdsssd", $v[0], $v[1], $v[3], $v[4], $v[2], $v[7], $v[6]);
+                $stmt = $db->prepare("insert into `section` (course_id, section_id, year, semester, teacher_id, classroom_code, max_stu, assessment_id) values (?,?,?,?,?,?,?,?)");
+                $stmt->bind_param("ssdsssdd", $v[0], $v[1], $v[3], $v[4], $v[2], $v[7], $v[6], $last_id);
                 //printf("%s,%s,%d,%s,%s,%s,%d\n", $v[0], $v[1], $v[3], $v[4], $v[2], $v[7], $v[6]);
                 $stmt->execute();
                 if(mysqli_error($db) != null){
