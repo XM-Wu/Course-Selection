@@ -46,14 +46,15 @@ if (isset($_SESSION['username'])) {
     if ($_SESSION["type"] == "student") {
         ?>
 
-        <h1><a href="SectionChoosing.php">选课</a></h1>
+        <h1><a href="SectionChoosing.php">选课与查看课程表</a></h1>
         <h1><a href="SectionApplication.php">选课事务申请</a></h1>
+        //<h1><a href="">查看课程表</a></h1>
         <h1><a href="GradeChecking.php">查看成绩</a></h1>
         <?php
     } elseif ($_SESSION["type"] == "admin") {
         ?>
         <h1><a href="#">查询</a></h1>
-        <h1><a href="#">数据导入</a></h1>
+        <h1><a href="InputData.php">数据导入</a></h1>
         <?php
 
     } elseif ($_SESSION["type"] == "teacher") {

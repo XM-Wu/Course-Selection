@@ -198,8 +198,6 @@ if ($su != 'xls' && $su != 'xlsx') {
             else $db->commit();
             $db->autocommit(true); // 关闭事务
             break;
-        case 3:
-            break;
         default:
             break;
     }
