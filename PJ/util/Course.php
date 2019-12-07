@@ -318,6 +318,11 @@ function quit_course($student_id, $course_id, $section_id, $year, $semester)
     $stmt = $mysqli->prepare("update section set stu_num=stu_num-1 where course_id=? and section_id=? and year=? and semester=?");
     $stmt->bind_param("sdds", $course_id, $section_id, $year, $semester);
     $stmt->execute();
+    $stmt->close();
+
+    $stmt = $mysqli->prepare("insert into quit (student_id, course_id, section_id, year, semester) values (?,?,?,?,?)");
+    $stmt->bind_param("ssdds", $student_id, $course_id, $section_id, $year, $semester);
+    $stmt->execute();
 
     if (mysqli_error($mysqli) > 0) {
         $mysqli->rollback();
