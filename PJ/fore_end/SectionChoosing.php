@@ -6,16 +6,24 @@
  * Time: 11:02
  */
 session_start();
+include_once ('Constants.php');
 if (isset($_SESSION["username"])) {
     include_once("../util/Connection.php");
     include_once("../util/Course.php");
     $mysqli = connect();
-    $current_year = 2019;
-    $current_semester = "第一学期";
+
     $stmt = $mysqli->prepare("select course_id,section_id from stu_take_sec where student_id=? and year=? and semester=?");
     $stmt->bind_param("sds", $_SESSION['username'], $current_year, $current_semester);
     $stmt->execute();
     $stmt->bind_result($cid, $sid);
+
+//    if (isset($_GET["course_id"])) {
+//        unset($_SESSION['map']);
+//
+//        quit_course($_SESSION['username'], $_GET["course_id"], $_GET["section_id"], $current_year, $current_semester);
+//        echo "<script> alert('" . $_GET["course_id"] . " 退课成功'); </script>";
+//        echo '<script> window.location.href="SectionChoosing.php"; </script>';
+//    }
 
     if (isset($_GET["select_course_id"])) {
         unset($_SESSION['map']);
@@ -30,16 +38,10 @@ if (isset($_SESSION["username"])) {
             }
         } else {
             echo '<script> alert("人数已满"); </script>';
-
         }
-
     }
 
-    if (isset($_GET["course_id"])) {
-        unset($_SESSION['map']);
-        //TODO
-        echo "<script> alert('" . $_GET["course_id"] . " 退课成功'); </script>";
-    }
+
 
     if (!isset($_SESSION['map'])) {
         $map = array( // 7*14
@@ -297,6 +299,7 @@ if (isset($_SESSION["username"])) {
                         <?php
                         while ($stmt->fetch()) {
                             // 建立节次到课程的映射
+                            echo 'build';
                             $time = get_section_time($cid, $sid, $current_year, $current_semester);
                             $name = get_course_name($cid);
                             foreach ($time as $t) {
@@ -315,7 +318,7 @@ if (isset($_SESSION["username"])) {
                             echo '<td>' . $info['classroom_code'] . '</td>';
                             echo '<td>' . $info['time'] . '</td>';
                             echo '<td>' . $info['stu_num'] . '/' . $info['max_stu'] . '</td>';
-                            echo '<td><form method="get" action="SectionChoosing.php"><input hidden value="' . $cid
+                            echo '<td><form method="get" action="Jumping.php"><input hidden value="' . $cid
                                 . '" name="course_id"><input hidden value="' . $sid
                                 . '" name="section_id"><button type="submit">退课</button></form></td>';
                             echo '</tr>';
@@ -375,20 +378,20 @@ if (isset($_SESSION["username"])) {
             ['一', '二', '三', '四', '五', '六', '日'];
         var day = new Date().getDay();
         var courseType = [
-            [{index: '1', name: '8:30'}, 1],
-            [{index: '2', name: '9:30'}, 1],
-            [{index: '3', name: '10:30'}, 1],
-            [{index: '4', name: '11:30'}, 1],
-            [{index: '5', name: '12:30'}, 1],
-            [{index: '6', name: '14:30'}, 1],
-            [{index: '7', name: '15:30'}, 1],
-            [{index: '8', name: '16:30'}, 1],
-            [{index: '9', name: '17:30'}, 1],
+            [{index: '1', name: '8:00'}, 1],
+            [{index: '2', name: '8:55'}, 1],
+            [{index: '3', name: '9:55'}, 1],
+            [{index: '4', name: '10:50'}, 1],
+            [{index: '5', name: '11:35'}, 1],
+            [{index: '6', name: '13:30'}, 1],
+            [{index: '7', name: '14:25'}, 1],
+            [{index: '8', name: '15:25'}, 1],
+            [{index: '9', name: '16:20'}, 1],
             [{index: '10', name: '18:30'}, 1],
-            [{index: '11', name: '19:30'}, 1],
-            [{index: '12', name: '20:30'}, 1],
-            [{index: '13', name: '19:30'}, 1],
-            [{index: '14', name: '20:30'}, 1]
+            [{index: '11', name: '19:25'}, 1],
+            [{index: '12', name: '20:20'}, 1],
+            [{index: '13', name: '21:15'}, 1],
+            [{index: '14', name: '22:10'}, 1]
         ];
         // 实例化(初始化课表)
         var Timetable = new Timetables({
@@ -419,5 +422,5 @@ if (isset($_SESSION["username"])) {
     <?php
 } else {
     echo "请登录";
-    header('refresh:3; url=Login.html');
+    header('refresh:2; url=Login.html');
 }

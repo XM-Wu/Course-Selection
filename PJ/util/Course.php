@@ -265,18 +265,18 @@ function check_conf($student_id, $course_id, $section_id, $year, $semester)
     $mysqli->close();
     return false;
 }
-function check_num($course_id, $section_id, $year, $semester){
+
+function check_num($course_id, $section_id, $year, $semester)
+{
     include_once("Connection.php");
     $mysqli = connect();
     $stmt = $mysqli->prepare("select stu_num,max_stu from section where course_id=? and section_id=? and year=? and semester=?");
-    $stmt->bind_param("sdds",  $course_id, $section_id, $year, $semester);
+    $stmt->bind_param("sdds", $course_id, $section_id, $year, $semester);
     $stmt->execute();
     $stmt->bind_result($curr, $max);
     $stmt->fetch();
-echo $curr;
-echo '||';
-echo $max;
-    if ($curr>= $max) return false;
+
+    if ($curr >= $max) return false;
     else return true;
 }
 
@@ -295,11 +295,36 @@ function insert_course($stid, $cid, $seid, $year, $semester)
     $stmt->bind_param("sdds", $cid, $seid, $year, $semester);
     $stmt->execute();
 
-    if(mysqli_error($mysqli) > 0){
+    if (mysqli_error($mysqli) > 0) {
         $mysqli->rollback();
     } else $mysqli->commit();
 
     $mysqli->autocommit(true);
+    $stmt->close();
+    $mysqli->close();
+}
 
+function quit_course($student_id, $course_id, $section_id, $year, $semester)
+{
+    include_once("Connection.php");
+    $mysqli = connect();
+    $mysqli->autocommit(false);
+
+    $stmt = $mysqli->prepare("delete from stu_take_sec where student_id=? and course_id=? and section_id=? and year=? and semester=?");
+    $stmt->bind_param("ssdds", $student_id, $course_id, $section_id, $year, $semester);
+    $stmt->execute();
+    $stmt->close();
+
+    $stmt = $mysqli->prepare("update section set stu_num=stu_num-1 where course_id=? and section_id=? and year=? and semester=?");
+    $stmt->bind_param("sdds", $course_id, $section_id, $year, $semester);
+    $stmt->execute();
+
+    if (mysqli_error($mysqli) > 0) {
+        $mysqli->rollback();
+        echo mysqli_error($mysqli);
+    } else $mysqli->commit();
+
+    $mysqli->autocommit(true);
+    $stmt->close();
     $mysqli->close();
 }
