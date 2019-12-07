@@ -128,19 +128,19 @@ if ($su != 'xls' && $su != 'xlsx') {
                     $seqs = explode(",", $tmp[1]); // 拆出课节
                     //select teacher_id, classroom_code from `section` where course_id=some(select course_id from sec_time where day_of_week=? and lesson_seq=?)
 
-                    foreach ($seqs as $seq){
+                    foreach ($seqs as $seq) {
                         $stmt = $db->prepare("select teacher_id, classroom_code from section where year=? and semester=? and (course_id,section_id,year,semester) in (select course_id,section_id,year,semester from sec_time where day_of_week=? and lesson_seq=?)"); // 寻找同时间的所有课程
 //                        if(!$stmt){
 //                            die(mysqli_error($db));
 //                        }
-                        $stmt->bind_param("dssd", $v[3],$v[4], $tmp[0], $seq);
+                        $stmt->bind_param("dssd", $v[3], $v[4], $tmp[0], $seq);
                         $stmt->execute();
                         $stmt->bind_result($teacher, $classroom);
-                        while($stmt->fetch()){
-                            echo $teacher . "|" .$classroom;
-                            if($teacher == $v[2] || $classroom == $v[7]){
+                        while ($stmt->fetch()) {
+                            echo $teacher . "|" . $classroom;
+                            if ($teacher == $v[2] || $classroom == $v[7]) {
                                 $need_roll_back = true;
-                                printf("数据行：%s,%s,%s,%s,%s,%s,%s,%s,%s\n", $v[0], $v[1], $v[2], $v[3], $v[4], $v[5],$v[6],$v[7],$v[8]);
+                                printf("数据行：%s,%s,%s,%s,%s,%s,%s,%s,%s\n", $v[0], $v[1], $v[2], $v[3], $v[4], $v[5], $v[6], $v[7], $v[8]);
                                 echo_error(4);
                                 break;
                             }
@@ -156,7 +156,7 @@ if ($su != 'xls' && $su != 'xlsx') {
                 $stmt = $db->prepare("insert into assessment (type) values (?)");
                 $stmt->bind_param("s", $v[8]);
                 $stmt->execute();
-                if(mysqli_error($db) != null){
+                if (mysqli_error($db) != null) {
                     echo mysqli_error($db);
                     $need_roll_back = true;
                     echo_error(5);
@@ -169,7 +169,7 @@ if ($su != 'xls' && $su != 'xlsx') {
                 $stmt->bind_param("ssdsssdd", $v[0], $v[1], $v[3], $v[4], $v[2], $v[7], $v[6], $last_id);
                 //printf("%s,%s,%d,%s,%s,%s,%d\n", $v[0], $v[1], $v[3], $v[4], $v[2], $v[7], $v[6]);
                 $stmt->execute();
-                if(mysqli_error($db) != null){
+                if (mysqli_error($db) != null) {
                     echo mysqli_error($db);
                     $need_roll_back = true;
                     echo_error(5);
@@ -185,7 +185,7 @@ if ($su != 'xls' && $su != 'xlsx') {
                         $stmt = $db->prepare("insert into sec_time (course_id, section_id, `year`, semester, day_of_week, lesson_seq) values (?,?,?,?,?,?)");
                         $stmt->bind_param("ssdssd", $v[0], $v[1], $v[3], $v[4], $tmp[0], $seq);
                         $stmt->execute();
-                        if(mysqli_error($db) != null){
+                        if (mysqli_error($db) != null) {
                             $need_roll_back = true;
                             echo_error(-1);
                             break;
@@ -199,6 +199,65 @@ if ($su != 'xls' && $su != 'xlsx') {
             if ($need_roll_back) $db->rollback();
             else $db->commit();
             $db->autocommit(true); // 关闭事务
+            break;
+        case 3:
+            $db->autocommit(false); // 开启事务
+            $need_roll_back = false;
+
+            foreach ($data as $v) {
+                if (count($v) != 8) { // 某行数据量不匹配
+                    $need_roll_back = true;
+                    echo_error(0);
+                    break;
+                }
+
+                $stmt = $db->prepare("update assessment set date=?,start_time=?,end_time=?,location=? where assessment_id=(select assessment_id from section where course_id=? and section_id=? and year=? and semester=?)");
+                $stmt->bind_param('sssssdds', $v[4], $v[5], $v[6], $v[7], $v[0], $v[1], $v[2], $v[3]);
+                $rlt = $stmt->execute();
+                if (mysqli_error($db) > 0 || !$rlt) {
+                    $need_roll_back = true;
+                    echo_error(6);
+                    break;
+                }
+            }
+            $stmt->close();
+
+            if ($need_roll_back) $db->rollback();
+            else $db->commit();
+
+            $db->autocommit(true);
+            break;
+
+        case 4:
+            $db->autocommit(false);
+            $need_roll_back = false;
+
+            foreach ($data as $v) {
+                if (count($v) != 2) { // 某行数据量不匹配
+                    $need_roll_back = true;
+                    echo_error(0);
+                    break;
+                }
+                $stmt = $db->prepare("update stu_take_sec set grade=? where student_id=? and course_id=? and section_id=? and year=? and semester=?");
+                $stmt->bind_param("sssdds", $v[1], $v[0], $_POST['course_id'], $_POST['section_id'], $_POST['year'], $_POST['semester']);
+                $rlt = $stmt->execute();
+
+                if (mysqli_error($db) > 0 || !$rlt) {
+                    $need_roll_back = true;
+                    echo_error(6);
+                    break;
+                }
+                if ($db->affected_rows == 0){
+                    echo_error(7);
+                    $need_roll_back = true;
+                    break;
+                }
+            }
+
+            if ($need_roll_back) $db->rollback();
+            else $db->commit();
+
+            $db->autocommit(true);
             break;
         default:
             break;
@@ -232,6 +291,12 @@ function echo_error($seq)
             break;
         case 5:
             echo "请检查是否有不存在的教师或教室！";
+            break;
+        case 6:
+            echo "更新/插入错误，请检查数据是否匹配";
+            break;
+        case 7:
+            echo "某条数据无法更新数据库，学生是否匹配";
             break;
         default:
             echo "unknown error\n";

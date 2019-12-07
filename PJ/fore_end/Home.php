@@ -56,7 +56,7 @@ if (isset($_SESSION['username'])) {
 
     } elseif ($_SESSION["type"] == "teacher") {
         ?>
-        <h1><a href="#">查看花名册</a></h1>
+        <h1><a href="SectionMultiplication.php">课程操作</a></h1>
         <h1><a href="#">选课事务申请处理</a></h1>
         <?php
     }

@@ -172,6 +172,9 @@ if (isset($_SESSION["username"])) {
     <!-- 导航栏 -->
     <ul class="nav nav-pills">
         <li class="nav-item">
+            <a class="nav-link" href="Home.php">返回</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link active" href="SectionChoosing.php">选课</a>
         </li>
         <li class="nav-item">

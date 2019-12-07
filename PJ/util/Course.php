@@ -171,10 +171,10 @@ function check_exam_conf($ai1, $ai2)
     //直接字符串比较
     if ($date1 != $date2) return true;
     if ($start_time1 == null || $start_time2 == null) return true;
-    if (($start_time1 > $start_time2 && $start_time1 < $end_time2)
-        || ($end_time1 > $start_time2 && $end_time1 < $end_time2)
-        || ($start_time2 > $start_time1 && $start_time2 < $end_time1)
-        || ($end_time2 > $start_time1 && $end_time2 < $end_time1))
+    if (($start_time1 >= $start_time2 && $start_time1 <= $end_time2)
+        || ($end_time1 >= $start_time2 && $end_time1 <= $end_time2)
+        || ($start_time2 >= $start_time1 && $start_time2 <= $end_time1)
+        || ($end_time2 >= $start_time1 && $end_time2 <= $end_time1))
         return false;
     return true;
 }
