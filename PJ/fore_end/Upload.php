@@ -83,6 +83,7 @@ if ($su != 'xls' && $su != 'xlsx') {
                 $stmt->bind_param("ssss", $v[0], $v[1], $v[2], $v[3]);
                 $result = $stmt->execute();
                 if (!$result) {
+                    echo mysqli_error($db);
                     echo $v[0] . " " . $v[1] . " " . $v[2] . " " . $v[3] . "\n";
                     $need_roll_back = true;
                     echo_error(2);
@@ -128,15 +129,16 @@ if ($su != 'xls' && $su != 'xlsx') {
                     //select teacher_id, classroom_code from `section` where course_id=some(select course_id from sec_time where day_of_week=? and lesson_seq=?)
 
                     foreach ($seqs as $seq){
-                        $stmt = $db->prepare("select teacher_id, classroom_code from section where (course_id,section_id,year,semester) in (select course_id,section_id,year,semester from sec_time where day_of_week=? and lesson_seq=?)"); // 寻找同时间的所有课程
+                        $stmt = $db->prepare("select teacher_id, classroom_code from section where year=? and semester=? and (course_id,section_id,year,semester) in (select course_id,section_id,year,semester from sec_time where day_of_week=? and lesson_seq=?)"); // 寻找同时间的所有课程
 //                        if(!$stmt){
 //                            die(mysqli_error($db));
 //                        }
-                        $stmt->bind_param("sd", $tmp[0], $seq);
+                        $stmt->bind_param("dssd", $v[3],$v[4], $tmp[0], $seq);
                         $stmt->execute();
                         $stmt->bind_result($teacher, $classroom);
                         while($stmt->fetch()){
-                            if($teacher = $v[2] || $classroom= $v[7]){
+                            echo $teacher . "|" .$classroom;
+                            if($teacher == $v[2] || $classroom == $v[7]){
                                 $need_roll_back = true;
                                 printf("数据行：%s,%s,%s,%s,%s,%s,%s,%s,%s\n", $v[0], $v[1], $v[2], $v[3], $v[4], $v[5],$v[6],$v[7],$v[8]);
                                 echo_error(4);

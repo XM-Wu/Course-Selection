@@ -2,13 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7a15f525-5551-4d17-9b30-fa798703d7d9" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/PJ/lib/table/Timetables.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/PJ/lib/jquery-3.3.1.min.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PJ/fore_end/GradeChecking.php" beforeDir="false" afterPath="$PROJECT_DIR$/PJ/fore_end/GradeChecking.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PJ/fore_end/Home.php" beforeDir="false" afterPath="$PROJECT_DIR$/PJ/fore_end/Home.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PJ/fore_end/InputData.php" beforeDir="false" afterPath="$PROJECT_DIR$/PJ/fore_end/InputData.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PJ/fore_end/SectionChoosing.php" beforeDir="false" afterPath="$PROJECT_DIR$/PJ/fore_end/SectionChoosing.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PJ/fore_end/Upload.php" beforeDir="false" afterPath="$PROJECT_DIR$/PJ/fore_end/Upload.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PJ/util/Course.php" beforeDir="false" afterPath="$PROJECT_DIR$/PJ/util/Course.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,20 +19,92 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="SectionChoosing.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/PJ/fore_end/SectionChoosing.php">
+      <file leaf-file-name="Home.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/PJ/fore_end/Home.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-6">
-              <caret line="16" column="21" lean-forward="true" selection-start-line="16" selection-start-column="21" selection-end-line="16" selection-end-column="21" />
+            <state relative-caret-position="289">
+              <caret line="17" column="8" lean-forward="true" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="8" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Course.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="InputData.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/PJ/fore_end/InputData.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="431">
+              <caret line="49" column="28" lean-forward="true" selection-start-line="49" selection-start-column="28" selection-end-line="49" selection-end-column="28" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Logout.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/PJ/fore_end/Logout.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="11" column="28" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Login.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/PJ/fore_end/Login.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="408">
+              <caret line="24" column="20" lean-forward="true" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Upload.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/PJ/fore_end/Upload.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="117">
+              <caret line="100" column="36" lean-forward="true" selection-start-line="99" selection-start-column="11" selection-end-line="100" selection-end-column="36" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Course.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/PJ/util/Course.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="466">
-              <caret line="65" column="52" selection-start-line="65" selection-start-column="52" selection-end-line="65" selection-end-column="52" />
+            <state relative-caret-position="406">
+              <caret line="274" column="19" selection-start-line="274" selection-start-column="19" selection-end-line="274" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Basic.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/PJ/util/Basic.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="340">
+              <caret line="20" column="19" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AccountHandle.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/PJ/util/AccountHandle.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="323">
+              <caret line="24" column="19" selection-start-line="24" selection-start-column="19" selection-end-line="24" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Connection.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/PJ/util/Connection.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="7" column="9" selection-start-line="7" selection-start-column="9" selection-end-line="7" selection-end-column="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SectionChoosing.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/PJ/fore_end/SectionChoosing.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="561">
+              <caret line="33" column="9" lean-forward="true" selection-start-line="33" selection-start-column="9" selection-end-line="33" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -50,6 +122,9 @@
     <findStrings>
       <find>prepare</find>
       <find>error</find>
+      <find>insert</find>
+      <find>auto</find>
+      <find>au</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -70,11 +145,12 @@
         <option value="$PROJECT_DIR$/PJ/fore_end/InputData.html" />
         <option value="$PROJECT_DIR$/PJ/fore_end/GradeChecking.php" />
         <option value="$PROJECT_DIR$/PJ/fore_end/CheckingCourse.php" />
-        <option value="$PROJECT_DIR$/PJ/fore_end/Home.php" />
+        <option value="$PROJECT_DIR$/PJ/fore_end/Jumping.php" />
         <option value="$PROJECT_DIR$/PJ/fore_end/InputData.php" />
         <option value="$PROJECT_DIR$/PJ/fore_end/Upload.php" />
-        <option value="$PROJECT_DIR$/PJ/util/Course.php" />
+        <option value="$PROJECT_DIR$/PJ/fore_end/Home.php" />
         <option value="$PROJECT_DIR$/PJ/fore_end/SectionChoosing.php" />
+        <option value="$PROJECT_DIR$/PJ/util/Course.php" />
       </list>
     </option>
   </component>
@@ -89,8 +165,8 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP" />
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="363" />
-    <option name="y" value="17" />
+    <option name="x" value="297" />
+    <option name="y" value="9" />
     <option name="width" value="1400" />
     <option name="height" value="1000" />
   </component>
@@ -173,19 +249,21 @@
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/project2" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\course\DataBase\Course-Selection\PJ\resource\data_base" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\course\DataBase\Course-Selection\PJ\lib\table" />
       <recent name="D:\course\DataBase\Course-Selection\PJ\resource\input_file" />
       <recent name="D:\course\DataBase\Course-Selection\PJ\resource\pic" />
       <recent name="D:\course\DataBase\Course-Selection\PJ\util" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\course\DataBase\Course-Selection\PJ\lib" />
+      <recent name="D:\course\DataBase\Course-Selection\PJ\resource\data_base" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -213,12 +291,13 @@
       <workItem from="1575437956948" duration="25715000" />
       <workItem from="1575526533958" duration="21103000" />
       <workItem from="1575594913882" duration="6907000" />
-      <workItem from="1575606769818" duration="16077000" />
+      <workItem from="1575606769818" duration="27820000" />
+      <workItem from="1575683068496" duration="16314000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="69802000" />
+    <option name="totallyTimeSpent" value="97859000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -258,6 +337,41 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/PJ/fore_end/Home.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="782">
+          <caret line="46" column="10" selection-start-line="46" selection-start-column="10" selection-end-line="46" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PJ/fore_end/Logout.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="11" column="28" lean-forward="true" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PJ/util/Course.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="714">
+          <caret line="47" column="19" selection-start-line="47" selection-start-column="19" selection-end-line="47" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PJ/fore_end/Upload.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2278">
+          <caret line="134" column="58" selection-start-line="134" selection-start-column="58" selection-end-line="134" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PJ/fore_end/Login.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="24" column="20" lean-forward="true" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/PJ/fore_end/Home.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1156">
@@ -420,13 +534,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/PJ/util/Select.php" />
-    <entry file="file://$PROJECT_DIR$/PJ/fore_end/Logout.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="10" column="18" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/PJ/fore_end/SectionApplication.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
@@ -448,22 +555,67 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/PJ/util/Connection.php">
+    <entry file="file://$PROJECT_DIR$/PJ/fore_end/CheckingCourse.php" />
+    <entry file="file://$PROJECT_DIR$/PJ/fore_end/Login.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="9" selection-start-line="7" selection-start-column="9" selection-end-line="7" selection-end-column="9" />
+        <state relative-caret-position="408">
+          <caret line="24" column="18" lean-forward="true" selection-start-line="24" selection-start-column="18" selection-end-line="24" selection-end-column="18" />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/PJ/lib/table/Timetables.min.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PJ/fore_end/GradeChecking.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="771">
+          <caret line="58" column="27" lean-forward="true" selection-start-line="58" selection-start-column="27" selection-end-line="58" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PJ/fore_end/Jumping.php" />
     <entry file="file://$USER_HOME$/Desktop/project2/Searching.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2091" />
+        <state relative-caret-position="349">
+          <caret line="232" column="13" lean-forward="true" selection-start-line="232" selection-start-column="13" selection-end-line="232" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PJ/fore_end/Login.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="24" column="20" lean-forward="true" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PJ/fore_end/Logout.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="11" column="28" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PJ/lib/jquery-3.3.1.min.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PJ/fore_end/Home.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="8" lean-forward="true" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="8" />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/PJ/util/AccountHandle.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
           <caret line="24" column="19" selection-start-line="24" selection-start-column="19" selection-end-line="24" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PJ/util/Connection.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="9" selection-start-line="7" selection-start-column="9" selection-end-line="7" selection-end-column="9" />
         </state>
       </provider>
     </entry>
@@ -474,69 +626,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/PJ/fore_end/CheckingCourse.php">
+    <entry file="file://$PROJECT_DIR$/PJ/fore_end/Upload.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="154" lean-forward="true" selection-start-line="107" selection-end-line="154" />
+        <state relative-caret-position="117">
+          <caret line="100" column="36" lean-forward="true" selection-start-line="99" selection-start-column="11" selection-end-line="100" selection-end-column="36" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/PJ/fore_end/InputData.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="33" column="22" selection-start-line="33" selection-start-column="22" selection-end-line="33" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PJ/fore_end/Login.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="24" column="18" lean-forward="true" selection-start-line="24" selection-start-column="18" selection-end-line="24" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PJ/fore_end/Home.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="50" column="10" selection-start-line="50" selection-start-column="10" selection-end-line="50" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PJ/lib/table/Timetables.min.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PJ/fore_end/Login.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="31" column="46" selection-start-line="31" selection-start-column="20" selection-end-line="31" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PJ/fore_end/Upload.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="199" column="18" selection-start-line="199" selection-start-column="18" selection-end-line="199" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PJ/fore_end/GradeChecking.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="771">
-          <caret line="58" column="27" lean-forward="true" selection-start-line="58" selection-start-column="27" selection-end-line="58" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PJ/util/Course.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="466">
-          <caret line="65" column="52" selection-start-line="65" selection-start-column="52" selection-end-line="65" selection-end-column="52" />
+        <state relative-caret-position="431">
+          <caret line="49" column="28" lean-forward="true" selection-start-line="49" selection-start-column="28" selection-end-line="49" selection-end-column="28" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/PJ/fore_end/SectionChoosing.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-6">
-          <caret line="16" column="21" lean-forward="true" selection-start-line="16" selection-start-column="21" selection-end-line="16" selection-end-column="21" />
+        <state relative-caret-position="561">
+          <caret line="33" column="9" lean-forward="true" selection-start-line="33" selection-start-column="9" selection-end-line="33" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PJ/util/Course.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="406">
+          <caret line="274" column="19" selection-start-line="274" selection-start-column="19" selection-end-line="274" selection-end-column="19" />
         </state>
       </provider>
     </entry>

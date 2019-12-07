@@ -17,31 +17,43 @@ if (isset($_SESSION["username"])) {
     $stmt->execute();
     $stmt->bind_result($cid, $sid);
 
-    $map = array( // 7*14
-        array('', '', '', '', '', '', '', '', '', '', '', '', '', ''),
-        array('', '', '', '', '', '', '', '', '', '', '', '', '', ''),
-        array('', '', '', '', '', '', '', '', '', '', '', '', '', ''),
-        array('', '', '', '', '', '', '', '', '', '', '', '', '', ''),
-        array('', '', '', '', '', '', '', '', '', '', '', '', '', ''),
-        array('', '', '', '', '', '', '', '', '', '', '', '', '', ''),
-        array('', '', '', '', '', '', '', '', '', '', '', '', '', '')
-    );
+    if (isset($_GET["select_course_id"])) {
+        unset($_SESSION['map']);
 
-    // 建立节次到课程的映射
-    while ($stmt->fetch()) {
-        $time = get_section_time($cid, $sid, $current_year, $current_semester);
-        $name = get_course_name($cid);
-        foreach ($time as $t){
-            $index1 = (int)floor($t / 100);
-            $index2 = $t-$index1*100;
-            $map[$index1][$index2] = $name;
+        if (check_num($_GET['select_course_id'], $_GET['select_section_id'], $current_year, $current_semester)) {
+            $conf = check_conf($_SESSION['username'], $_GET['select_course_id'], $_GET['select_section_id'], $current_year, $current_semester);
+            if (!$conf) {
+                insert_course($_SESSION['username'], $_GET['select_course_id'], $_GET['select_section_id'], $current_year, $current_semester);
+                echo '<script> window.location.href="SectionChoosing.php"; </script>';
+            } else {
+                echo '<script> alert("' . $conf['type'] . ":" . $conf['course_id'] . "-" . $conf["section_id"] . "-" . get_course_name($conf['course_id']) . '"); </script>';
+            }
+        } else {
+            echo '<script> alert("人数已满"); </script>';
+
         }
-
 
     }
 
-    $stmt->close();
-    $mysqli->close();
+    if (isset($_GET["course_id"])) {
+        unset($_SESSION['map']);
+        //TODO
+        echo "<script> alert('" . $_GET["course_id"] . " 退课成功'); </script>";
+    }
+
+    if (!isset($_SESSION['map'])) {
+        $map = array( // 7*14
+            array('', '', '', '', '', '', '', '', '', '', '', '', '', ''),
+            array('', '', '', '', '', '', '', '', '', '', '', '', '', ''),
+            array('', '', '', '', '', '', '', '', '', '', '', '', '', ''),
+            array('', '', '', '', '', '', '', '', '', '', '', '', '', ''),
+            array('', '', '', '', '', '', '', '', '', '', '', '', '', ''),
+            array('', '', '', '', '', '', '', '', '', '', '', '', '', ''),
+            array('', '', '', '', '', '', '', '', '', '', '', '', '', '')
+        );
+    } else {
+        $map = $_SESSION['map'];
+    }
 
     ?>
     <html>
@@ -49,6 +61,7 @@ if (isset($_SESSION["username"])) {
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
         <script src="../lib/table/Timetables.min.js"></script>
+        <script src="../lib/jquery-3.3.1.min.js"></script>
         <style>
             #coursesTable {
                 padding: 15px 10px;
@@ -173,67 +186,19 @@ if (isset($_SESSION["username"])) {
         <div class="card">
             <div class="card-header">
                 <a class="card-link" data-toggle="collapse" href="#collapseOne">
-                    已选课程
+                    课程搜索
                 </a>
             </div>
             <div id="collapseOne" class="collapse show" data-parent="#accordion">
                 <div class="card-body">
                     <!--  内容1 /////////////////////////////////////////////////////////////// -->
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>课程代码</th>
-                            <th>课程名称</th>
-                            <th>教师</th>
-                            <th>时间</th>
-                            <th>地点</th>
-                            <th>已选人数</th>
-                            <th>操作</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <!-- sample php code TODO here -->
-                        <?php
-
-
-                        if (isset($_POST["course_id"])) {
-                            echo "<script> alert('" . $_POST["course_id"] . " 退课成功'); </script>";
-                        }
-                        ?>
-                        <tr>
-                            <td>SOFT1101.1</td>
-                            <td>java程序设计</td>
-                            <td>陆逸凡</td>
-                            <td>周日 2-3</td>
-                            <td>Z2204</td>
-                            <td>90/100</td>
-                            <td>
-                                <form method="post" action="SectionChoosing.php">
-                                    <input hidden value="CS101" name="course_id">
-                                    <input hidden value="1" name="section_id">
-                                    <button type="submit">退课</button>
-                                </form>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header">
-                <a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo">
-                    课程搜索
-                </a>
-            </div>
-            <div id="collapseTwo" class="collapse" data-parent="#accordion">
-                <!--  内容2 /////////////////////////////////////////////////////////////// -->
-                <div class="card-body">
-                    <form class="form-inline">
+                    <form class="form-inline" method="get" action="SectionChoosing.php">
                         <label for="course_code">课程代码</label>
-                        <input type="text" class="form-control" id="course_code" placeholder="输入课程代码">
+                        <input type="text" class="form-control" id="course_code" placeholder="输入课程代码"
+                               name="search_course_code">
                         <label for="course_name">课程名称</label>
-                        <input type="text" class="form-control" id="course_name" placeholder="输入课程名称">
+                        <input type="text" class="form-control" id="course_name" placeholder="输入课程名称"
+                               name="search_course_name">
                         <button type="submit" class="btn btn-primary">搜索</button>
                     </form>
                     <div>
@@ -250,37 +215,135 @@ if (isset($_SESSION["username"])) {
                             </tr>
                             </thead>
                             <tbody>
-                            <!-- sample php code TODO here -->
-                            <tr>
-                                <td>SOFT1101.1</td>
-                                <td>java程序设计</td>
-                                <td>陆逸凡</td>
-                                <td>周日 2-3</td>
-                                <td>Z2204</td>
-                                <td>90/100</td>
-                                <td>
-                                    <button>选课</button>
-                                </td>
-                            </tr>
+                            <?php
+                            if (isset($_GET["search_course_code"])) {
+                                $mysqli = connect();
+
+                                if ($_GET["search_course_name"] == '') {
+                                    $st = $mysqli->prepare("select course_id,section_id from section where year=? and semester=? and course_id=? and (course_id, section_id,year,semester) not in (select course_id, section_id,year,semester from stu_take_sec where student_id=?)");
+                                    $st->bind_param("dsss", $current_year, $current_semester, $_GET['search_course_code'], $_SESSION["username"]);
+
+                                } else {
+                                    $like_str = "%" . $_GET['search_course_name'] . "%";
+                                    $st = $mysqli->prepare("select course_id,section_id from section where year=? and semester=? and (course_id=? or course_id in (select course_id from course where course_name like ?)) and (course_id, section_id,year,semester) not in (select course_id, section_id,year,semester from stu_take_sec where student_id=?)");
+                                    $st->bind_param("dssss", $current_year, $current_semester, $_GET['search_course_code'], $like_str, $_SESSION["username"]);
+                                }
+                                $st->execute();
+                                $st->bind_result($co_id, $se_id);
+
+                                while ($st->fetch()) {
+                                    $info = get_section_info($co_id, $se_id, $current_year, $current_semester);
+                                    echo ' <tr>';
+                                    echo '<td>' . $co_id . '.' . $se_id . '</td>';
+                                    echo '<td>' . $info['course_name'] . '</td>';
+                                    echo '<td>' . $info['teacher_name'] . '</td>';
+                                    echo '<td>' . $info['time'] . '</td>';
+                                    echo '<td>' . $info['classroom_code'] . '</td>';
+                                    echo '<td>' . $info['stu_num'] . '/' . $info['max_stu'] . '</td>';
+                                    echo ' <td><form method="get" action="SectionChoosing.php"><input hidden value="' . $co_id
+                                        . '" name="select_course_id"><input hidden value="' . $se_id
+                                        . '" name="select_section_id"><button type="submit">选课</button></form></td>';
+                                    echo '</tr>';
+                                }
+
+                            }
+                            ?>
+                            <!--                            <tr>-->
+                            <!--                                <td>SOFT1101.1</td>-->
+                            <!--                                <td>java程序设计</td>-->
+                            <!--                                <td>陆逸凡</td>-->
+                            <!--                                <td>周日 2-3</td>-->
+                            <!--                                <td>Z2204</td>-->
+                            <!--                                <td>90/100</td>-->
+                            <!--                                <td>-->
+                            <!--                                    <form method="post" action="SectionChoosing.php">-->
+                            <!--                                        <input hidden value="" name="select_course_id">-->
+                            <!--                                        <input hidden value="" name="select_section_id">-->
+                            <!--                                        <button type="submit">选课</button>-->
+                            <!--                                    </form>-->
+                            <!---->
+                            <!--                                </td>-->
+                            <!--                            </tr>-->
                             </tbody>
                         </table>
 
                     </div>
+
                 </div>
             </div>
         </div>
-        <!--        <div class="card">-->
-        <!--            <div class="card-header">-->
-        <!--                <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree">-->
-        <!--                    选项三-->
-        <!--                </a>-->
-        <!--            </div>-->
-        <!--            <div id="collapseThree" class="collapse" data-parent="#accordion">-->
-        <!--                <div class="card-body">-->
-        <!--                    #3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！-->
-        <!--                </div>-->
-        <!--            </div>-->
-        <!--        </div>-->
+        <div class="card">
+            <div class="card-header">
+                <a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo">
+                    已选课程
+                </a>
+            </div>
+            <div id="collapseTwo" class="collapse" data-parent="#accordion">
+                <!--  内容2 /////////////////////////////////////////////////////////////// -->
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>课程代码</th>
+                            <th>课程名称</th>
+                            <th>教师</th>
+                            <th>地点</th>
+                            <th>时间</th>
+                            <th>已选人数</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                        while ($stmt->fetch()) {
+                            // 建立节次到课程的映射
+                            $time = get_section_time($cid, $sid, $current_year, $current_semester);
+                            $name = get_course_name($cid);
+                            foreach ($time as $t) {
+                                $index1 = (int)floor($t / 100);
+                                $index2 = $t - $index1 * 100;
+                                $map[$index1][$index2] = $name;
+                            }
+                            $_SESSION["map"] = $map;
+
+                            // 添加已选课程
+                            $info = get_section_info($cid, $sid, $current_year, $current_semester);
+                            echo '<tr>';
+                            echo '<td>' . $cid . '.' . $sid . '</td>';
+                            echo '<td>' . $info['course_name'] . '</td>';
+                            echo '<td>' . $info['teacher_name'] . '</td>';
+                            echo '<td>' . $info['classroom_code'] . '</td>';
+                            echo '<td>' . $info['time'] . '</td>';
+                            echo '<td>' . $info['stu_num'] . '/' . $info['max_stu'] . '</td>';
+                            echo '<td><form method="get" action="SectionChoosing.php"><input hidden value="' . $cid
+                                . '" name="course_id"><input hidden value="' . $sid
+                                . '" name="section_id"><button type="submit">退课</button></form></td>';
+                            echo '</tr>';
+                        }
+
+                        $stmt->close();
+                        $mysqli->close();
+                        ?>
+                        <!--                        <tr>-->
+                        <!--                            <td>SOFT1101.1</td>-->
+                        <!--                            <td>java程序设计</td>-->
+                        <!--                            <td>陆逸凡</td>-->
+                        <!--                            <td>周日 2-3</td>-->
+                        <!--                            <td>Z2204</td>-->
+                        <!--                            <td>90/100</td>-->
+                        <!--                            <td>-->
+                        <!--                                <form method="post" action="SectionChoosing.php">-->
+                        <!--                                    <input hidden value="CS101" name="course_id">-->
+                        <!--                                    <input hidden value="1" name="section_id">-->
+                        <!--                                    <button type="submit">退课</button>-->
+                        <!--                                </form>-->
+                        <!--                            </td>-->
+                        <!--                        </tr>-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 
 
@@ -296,17 +359,17 @@ if (isset($_SESSION["username"])) {
         //     ['', '', '', '', '', '', '', '', '', '', '', '', '', '']
         // ];
         <?php
-                echo 'var courseList = [';
-                for($i = 0; $i<7; $i++){
-                    echo '[';
-                    for($j = 0; $j<14; $j++){
-                        echo '\''. $map[$i][$j] . '\'';
-                        if($j!=13) echo ',';
-                    }
-                    echo ']';
-                    if ($i !=6) echo ',';
-                }
-                echo '];';
+        echo 'var courseList = [';
+        for ($i = 0; $i < 7; $i++) {
+            echo '[';
+            for ($j = 0; $j < 14; $j++) {
+                echo '\'' . $map[$i][$j] . '\'';
+                if ($j != 13) echo ',';
+            }
+            echo ']';
+            if ($i != 6) echo ',';
+        }
+        echo '];';
         ?>
         var week = window.innerWidth > 360 ? ['周一', '周二', '周三', '周四', '周五', '周六', '周日'] :
             ['一', '二', '三', '四', '五', '六', '日'];
@@ -343,7 +406,15 @@ if (isset($_SESSION["username"])) {
             }
         });
     </script>
-
+    <!--    <script>-->
+    <!--        $(document).ready(function () {-->
+    <!--            $('input[type=radio][name=sm]').click(function () {-->
+    <!--                $.get("func_php/changeSortingMethod.php", {method: 1}, function () {-->
+    <!--                });-->
+    <!--                location.reload();-->
+    <!--            });-->
+    <!--        });-->
+    <!--    </script>-->
     </html>
     <?php
 } else {
