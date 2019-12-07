@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 2019-12-06 12:49:10
+-- Generation Time: 2019-12-07 10:37:30
 -- 服务器版本： 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -42,8 +42,17 @@ INSERT INTO `account` (`uid`, `password`, `acc_type`) VALUES
 ('root', '115', 'admin'),
 ('S15222', 'S15222', 'student'),
 ('S15223', 'S15223', 'student'),
+('T1', 'T1', 'teacher'),
 ('T112', 'T112', 'teacher'),
-('T344', 'T344', 'teacher');
+('T2', 'T2', 'teacher'),
+('T3', 'T3', 'teacher'),
+('T344', 'T344', 'teacher'),
+('T4', 'T4', 'teacher'),
+('T5', 'T5', 'teacher'),
+('T6', 'T6', 'teacher'),
+('T7', 'T7', 'teacher'),
+('T8', 'T8', 'teacher'),
+('T9', 'T9', 'teacher');
 
 -- --------------------------------------------------------
 
@@ -93,7 +102,11 @@ CREATE TABLE `assessment` (
 
 INSERT INTO `assessment` (`assessment_id`, `type`, `date`, `start_time`, `end_time`, `location`) VALUES
 (1, 'exam', '2019-12-13', '15:00:00', '16:00:00', 'H2204'),
-(2, 'exam', NULL, NULL, NULL, NULL);
+(2, 'exam', NULL, NULL, NULL, NULL),
+(3, 'exam', NULL, NULL, NULL, NULL),
+(8, 'exam', NULL, NULL, NULL, NULL),
+(9, 'exam', NULL, NULL, NULL, NULL),
+(10, 'exam', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -111,6 +124,11 @@ CREATE TABLE `classroom` (
 --
 
 INSERT INTO `classroom` (`classroom_code`, `capacity`) VALUES
+('H2101', 40),
+('H2102', 100),
+('H2103', 50),
+('H2104', 80),
+('H2105', 100),
 ('H2204', 100);
 
 -- --------------------------------------------------------
@@ -132,7 +150,9 @@ CREATE TABLE `course` (
 
 INSERT INTO `course` (`course_id`, `course_name`, `course_credit`, `course_type`) VALUES
 ('CS1001', 'CSE', 4.0, 'a'),
-('CS101', 'CSEE', 4.0, '4h');
+('CS101', 'CSEE', 4.0, '4h'),
+('CS954', 'ICS', 2.0, '4'),
+('SO164', 'KKI', 2.0, 'a');
 
 -- --------------------------------------------------------
 
@@ -150,7 +170,10 @@ CREATE TABLE `department` (
 --
 
 INSERT INTO `department` (`depart_name`, `depart_code`) VALUES
-('computer', 'cs111');
+('computer', 'cs111'),
+('magic', 'NA'),
+('physcial', 'PH'),
+('science', 'SC');
 
 -- --------------------------------------------------------
 
@@ -169,6 +192,27 @@ CREATE TABLE `major` (
 
 INSERT INTO `major` (`major_name`, `department`) VALUES
 ('SS', 'computer');
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `quit`
+--
+
+CREATE TABLE `quit` (
+  `student_id` varchar(32) CHARACTER SET latin1 NOT NULL,
+  `course_id` varchar(32) CHARACTER SET utf8mb4 NOT NULL,
+  `section_id` int(3) NOT NULL,
+  `year` year(4) NOT NULL,
+  `semester` varchar(16) CHARACTER SET utf8mb4 NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `quit`
+--
+
+INSERT INTO `quit` (`student_id`, `course_id`, `section_id`, `year`, `semester`) VALUES
+('S15222', 'CS954', 1, 2019, 'ç¬¬ä¸€å­¦æœŸ');
 
 -- --------------------------------------------------------
 
@@ -193,7 +237,11 @@ CREATE TABLE `section` (
 --
 
 INSERT INTO `section` (`course_id`, `section_id`, `year`, `semester`, `teacher_id`, `classroom_code`, `stu_num`, `max_stu`, `assessment_id`) VALUES
-('CS101', 1, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'T344', 'H2204', 0, 50, 2);
+('CS101', 1, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'T344', 'H2204', 0, 50, 2),
+('CS101', 2, 2018, 'ç¬¬ä¸€å­¦æœŸ', 'T344', 'H2204', 0, 50, 3),
+('CS101', 2, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'T1', 'H2105', 0, 50, 8),
+('CS954', 1, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'T4', 'H2102', 0, 50, 10),
+('SO164', 1, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'T3', 'H2104', 0, 50, 9);
 
 -- --------------------------------------------------------
 
@@ -218,7 +266,21 @@ INSERT INTO `sec_time` (`course_id`, `section_id`, `year`, `semester`, `day_of_w
 ('CS101', 1, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'å‘¨ä¸€', 5),
 ('CS101', 1, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'å‘¨ä¸€', 6),
 ('CS101', 1, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'å‘¨äºŒ', 7),
-('CS101', 1, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'å‘¨äºŒ', 8);
+('CS101', 1, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'å‘¨äºŒ', 8),
+('CS101', 2, 2018, 'ç¬¬ä¸€å­¦æœŸ', 'å‘¨ä¸€', 5),
+('CS101', 2, 2018, 'ç¬¬ä¸€å­¦æœŸ', 'å‘¨ä¸€', 6),
+('CS101', 2, 2018, 'ç¬¬ä¸€å­¦æœŸ', 'å‘¨äºŒ', 5),
+('CS101', 2, 2018, 'ç¬¬ä¸€å­¦æœŸ', 'å‘¨äºŒ', 10),
+('CS101', 2, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'å‘¨ä¸‰', 7),
+('CS101', 2, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'å‘¨ä¸‰', 8),
+('CS101', 2, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'å‘¨äºŒ', 9),
+('CS101', 2, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'å‘¨äºŒ', 10),
+('CS954', 1, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'å‘¨äº”', 7),
+('CS954', 1, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'å‘¨äº”', 8),
+('CS954', 1, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'å‘¨äº”', 9),
+('SO164', 1, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'å‘¨äº”', 7),
+('SO164', 1, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'å‘¨äº”', 8),
+('SO164', 1, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'å‘¨äº”', 9);
 
 -- --------------------------------------------------------
 
@@ -283,8 +345,17 @@ CREATE TABLE `teacher` (
 --
 
 INSERT INTO `teacher` (`teacher_id`, `name`, `title`, `department`) VALUES
+('T1', 'é™†ä¸‰å¸†', 'è®²å¸ˆ', 'computer'),
 ('T112', 'é™†ä¸€å¸†', 'è®²å¸ˆ', 'computer'),
-('T344', 'é™†äºŒå¸†', 'è®²å¸ˆ', 'computer');
+('T2', 'é™†å››å¸†', 'è®²å¸ˆ', 'computer'),
+('T3', 'louis', 'æ•™æŽˆ', 'computer'),
+('T344', 'é™†äºŒå¸†', 'è®²å¸ˆ', 'computer'),
+('T4', 'mike', 'è®²å¸ˆ', 'magic'),
+('T5', 'tom', 'è®²å¸ˆ', 'science'),
+('T6', 'toms', 'æ•™æŽˆ', 'computer'),
+('T7', 'tomson', 'è®²å¸ˆ', 'computer'),
+('T8', 'thomson', 'è®²å¸ˆ', 'magic'),
+('T9', 'tommi', 'æ•™æŽˆ', 'science');
 
 --
 -- Indexes for dumped tables
@@ -344,6 +415,13 @@ ALTER TABLE `major`
   ADD KEY `fk_tb_dept` (`department`);
 
 --
+-- Indexes for table `quit`
+--
+ALTER TABLE `quit`
+  ADD KEY `student_id` (`student_id`),
+  ADD KEY `course_id` (`course_id`,`section_id`,`year`,`semester`);
+
+--
 -- Indexes for table `section`
 --
 ALTER TABLE `section`
@@ -387,7 +465,7 @@ ALTER TABLE `teacher`
 -- 使用表AUTO_INCREMENT `assessment`
 --
 ALTER TABLE `assessment`
-  MODIFY `assessment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `assessment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- 限制导出的表
@@ -417,6 +495,13 @@ ALTER TABLE `assessment`
 --
 ALTER TABLE `major`
   ADD CONSTRAINT `fk_tb_dept` FOREIGN KEY (`department`) REFERENCES `department` (`depart_name`);
+
+--
+-- 限制表 `quit`
+--
+ALTER TABLE `quit`
+  ADD CONSTRAINT `quit_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `student` (`student_id`),
+  ADD CONSTRAINT `quit_ibfk_2` FOREIGN KEY (`course_id`,`section_id`,`year`,`semester`) REFERENCES `section` (`course_id`, `section_id`, `year`, `semester`);
 
 --
 -- 限制表 `section`
