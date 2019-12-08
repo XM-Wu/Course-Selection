@@ -40,8 +40,9 @@ if (isset($_SESSION["username"])) {
             $stmt->execute();
             $stmt->bind_result($cid, $sid, $year, $semester, $stu_num, $max_stu);
 
-            echo '<tr>';
+
             while($stmt->fetch()){
+                echo '<tr>';
                 echo '<td>' . $cid . '.' . $sid . '</td>';
                 echo '<td>' . get_course_name($cid) . '</td>';
                 echo '<td>' . $year . '</td>';
@@ -67,8 +68,9 @@ if (isset($_SESSION["username"])) {
                 echo '<input type="submit" value="登分">';
                 echo '</form>';
                 echo '</td>';
+                echo '</tr>';
             }
-            echo '</tr>';
+
 
             $stmt->close();
             $db->close();

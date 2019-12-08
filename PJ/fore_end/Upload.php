@@ -129,18 +129,18 @@ if ($su != 'xls' && $su != 'xlsx') {
                     //select teacher_id, classroom_code from `section` where course_id=some(select course_id from sec_time where day_of_week=? and lesson_seq=?)
 
                     foreach ($seqs as $seq) {
-                        $stmt = $db->prepare("select teacher_id, classroom_code from section where year=? and semester=? and (course_id,section_id,year,semester) in (select course_id,section_id,year,semester from sec_time where day_of_week=? and lesson_seq=?)"); // 寻找同时间的所有课程
+                        $stmt = $db->prepare("select course_id,section_id,year,semester,teacher_id, classroom_code from section where year=? and semester=? and (course_id,section_id,year,semester) in (select course_id,section_id,year,semester from sec_time where day_of_week=? and lesson_seq=?)"); // 寻找同时间的所有课程
 //                        if(!$stmt){
 //                            die(mysqli_error($db));
 //                        }
                         $stmt->bind_param("dssd", $v[3], $v[4], $tmp[0], $seq);
                         $stmt->execute();
-                        $stmt->bind_result($teacher, $classroom);
+                        $stmt->bind_result($cid1, $sid1, $year1, $semester1,$teacher, $classroom);
                         while ($stmt->fetch()) {
-                            echo $teacher . "|" . $classroom;
                             if ($teacher == $v[2] || $classroom == $v[7]) {
                                 $need_roll_back = true;
-                                printf("数据行：%s,%s,%s,%s,%s,%s,%s,%s,%s\n", $v[0], $v[1], $v[2], $v[3], $v[4], $v[5], $v[6], $v[7], $v[8]);
+                                printf("<p>数据行：%s.%s, %s, %s, %s, %s, %s, %s, %s</p><p>冲突相关数据：%s.%s, %s, %s, %s, %s</p>", $v[0], $v[1], $v[2], $v[3], $v[4], $v[5], $v[6], $v[7], $v[8],
+                                    $cid1,$sid1,$year1,$semester1,$teacher,$classroom);
                                 echo_error(4);
                                 break;
                             }
