@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 2019-12-07 10:37:30
+-- Generation Time: 2019-12-08 16:09:36
 -- 服务器版本： 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -73,13 +73,23 @@ CREATE TABLE `admin` (
 --
 
 CREATE TABLE `application_transaction` (
-  `app_id` int(11) NOT NULL,
+  `apply_id` int(11) NOT NULL,
   `student_id` varchar(32) CHARACTER SET latin1 NOT NULL,
-  `course_id` varchar(16) NOT NULL,
+  `course_id` varchar(32) CHARACTER SET utf8mb4 NOT NULL,
+  `section_id` int(3) NOT NULL,
+  `year` year(4) NOT NULL,
+  `semester` varchar(16) CHARACTER SET utf8mb4 NOT NULL,
   `apply_reason` varchar(400) NOT NULL,
-  `state` varchar(8) NOT NULL,
-  `handle_reason` varchar(400) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `state` varchar(16) NOT NULL,
+  `handle_reason` varchar(400) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `application_transaction`
+--
+
+INSERT INTO `application_transaction` (`apply_id`, `student_id`, `course_id`, `section_id`, `year`, `semester`, `apply_reason`, `state`, `handle_reason`) VALUES
+(1, 'S15222', 'SO001', 2, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'I,LOVE IT!', 'é€šè¿‡', NULL);
 
 -- --------------------------------------------------------
 
@@ -102,11 +112,13 @@ CREATE TABLE `assessment` (
 
 INSERT INTO `assessment` (`assessment_id`, `type`, `date`, `start_time`, `end_time`, `location`) VALUES
 (1, 'exam', '2019-12-13', '15:00:00', '16:00:00', 'H2204'),
-(2, 'exam', NULL, NULL, NULL, NULL),
+(2, 'exam', '2019-12-01', '08:30:00', '10:30:00', 'H2102'),
 (3, 'exam', NULL, NULL, NULL, NULL),
-(8, 'exam', NULL, NULL, NULL, NULL),
+(8, 'exam', '2019-12-01', '08:30:00', '10:30:00', 'H2101'),
 (9, 'exam', NULL, NULL, NULL, NULL),
-(10, 'exam', NULL, NULL, NULL, NULL);
+(10, 'exam', NULL, NULL, NULL, NULL),
+(11, 'exam', NULL, NULL, NULL, NULL),
+(12, 'exam', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -140,19 +152,20 @@ INSERT INTO `classroom` (`classroom_code`, `capacity`) VALUES
 CREATE TABLE `course` (
   `course_id` varchar(32) NOT NULL,
   `course_name` varchar(32) NOT NULL,
-  `course_credit` float(2,1) NOT NULL,
-  `course_type` varchar(16) NOT NULL
+  `course_credit` float(2,1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- 转存表中的数据 `course`
 --
 
-INSERT INTO `course` (`course_id`, `course_name`, `course_credit`, `course_type`) VALUES
-('CS1001', 'CSE', 4.0, 'a'),
-('CS101', 'CSEE', 4.0, '4h'),
-('CS954', 'ICS', 2.0, '4'),
-('SO164', 'KKI', 2.0, 'a');
+INSERT INTO `course` (`course_id`, `course_name`, `course_credit`) VALUES
+('CS1001', 'CSE', 4.0),
+('CS101', 'CSEE', 4.0),
+('CS954', 'ICS', 2.0),
+('SO001', 'KKSK', 2.0),
+('SO002', 'SE', 2.0),
+('SO164', 'KKI', 2.0);
 
 -- --------------------------------------------------------
 
@@ -200,6 +213,7 @@ INSERT INTO `major` (`major_name`, `department`) VALUES
 --
 
 CREATE TABLE `quit` (
+  `quit_id` int(11) NOT NULL,
   `student_id` varchar(32) CHARACTER SET latin1 NOT NULL,
   `course_id` varchar(32) CHARACTER SET utf8mb4 NOT NULL,
   `section_id` int(3) NOT NULL,
@@ -211,8 +225,10 @@ CREATE TABLE `quit` (
 -- 转存表中的数据 `quit`
 --
 
-INSERT INTO `quit` (`student_id`, `course_id`, `section_id`, `year`, `semester`) VALUES
-('S15222', 'CS954', 1, 2019, 'ç¬¬ä¸€å­¦æœŸ');
+INSERT INTO `quit` (`quit_id`, `student_id`, `course_id`, `section_id`, `year`, `semester`) VALUES
+(1, 'S15222', 'CS101', 2, 2019, 'ç¬¬ä¸€å­¦æœŸ'),
+(2, 'S15222', 'CS101', 2, 2019, 'ç¬¬ä¸€å­¦æœŸ'),
+(3, 'S15222', 'CS101', 1, 2019, 'ç¬¬ä¸€å­¦æœŸ');
 
 -- --------------------------------------------------------
 
@@ -237,11 +253,13 @@ CREATE TABLE `section` (
 --
 
 INSERT INTO `section` (`course_id`, `section_id`, `year`, `semester`, `teacher_id`, `classroom_code`, `stu_num`, `max_stu`, `assessment_id`) VALUES
-('CS101', 1, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'T344', 'H2204', 0, 50, 2),
+('CS101', 1, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'T344', 'H2204', 25, 50, 2),
 ('CS101', 2, 2018, 'ç¬¬ä¸€å­¦æœŸ', 'T344', 'H2204', 0, 50, 3),
-('CS101', 2, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'T1', 'H2105', 0, 50, 8),
-('CS954', 1, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'T4', 'H2102', 0, 50, 10),
-('SO164', 1, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'T3', 'H2104', 0, 50, 9);
+('CS101', 2, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'T1', 'H2105', 49, 50, 8),
+('CS954', 1, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'T4', 'H2102', 11, 50, 10),
+('SO001', 1, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'T5', 'H2101', 40, 40, 11),
+('SO001', 2, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'T3', 'H2102', 40, 40, 12),
+('SO164', 1, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'T3', 'H2104', 1, 50, 9);
 
 -- --------------------------------------------------------
 
@@ -278,6 +296,10 @@ INSERT INTO `sec_time` (`course_id`, `section_id`, `year`, `semester`, `day_of_w
 ('CS954', 1, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'å‘¨äº”', 7),
 ('CS954', 1, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'å‘¨äº”', 8),
 ('CS954', 1, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'å‘¨äº”', 9),
+('SO001', 1, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'å‘¨å››', 1),
+('SO001', 1, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'å‘¨å››', 2),
+('SO001', 2, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'å‘¨å››', 1),
+('SO001', 2, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'å‘¨å››', 2),
 ('SO164', 1, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'å‘¨äº”', 7),
 ('SO164', 1, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'å‘¨äº”', 8),
 ('SO164', 1, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'å‘¨äº”', 9);
@@ -317,7 +339,7 @@ CREATE TABLE `stu_take_sec` (
   `section_id` int(3) NOT NULL,
   `year` year(4) NOT NULL,
   `semester` varchar(16) NOT NULL,
-  `grade` varchar(2) NOT NULL
+  `grade` varchar(2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -325,7 +347,9 @@ CREATE TABLE `stu_take_sec` (
 --
 
 INSERT INTO `stu_take_sec` (`student_id`, `course_id`, `section_id`, `year`, `semester`, `grade`) VALUES
-('S15222', 'CS101', 1, 2019, 'ç¬¬ä¸€å­¦æœŸ', 'A');
+('S15222', 'CS101', 2, 2019, 'ç¬¬ä¸€å­¦æœŸ', NULL),
+('S15222', 'SO001', 2, 2019, 'ç¬¬ä¸€å­¦æœŸ', NULL),
+('S15222', 'SO164', 1, 2019, 'ç¬¬ä¸€å­¦æœŸ', NULL);
 
 -- --------------------------------------------------------
 
@@ -378,9 +402,9 @@ ALTER TABLE `admin`
 -- Indexes for table `application_transaction`
 --
 ALTER TABLE `application_transaction`
-  ADD PRIMARY KEY (`app_id`),
-  ADD KEY `fk_ap_co` (`course_id`),
-  ADD KEY `fk_ap_st` (`student_id`);
+  ADD PRIMARY KEY (`apply_id`),
+  ADD KEY `student_id` (`student_id`),
+  ADD KEY `course_id` (`course_id`,`section_id`,`year`,`semester`);
 
 --
 -- Indexes for table `assessment`
@@ -418,6 +442,7 @@ ALTER TABLE `major`
 -- Indexes for table `quit`
 --
 ALTER TABLE `quit`
+  ADD PRIMARY KEY (`quit_id`),
   ADD KEY `student_id` (`student_id`),
   ADD KEY `course_id` (`course_id`,`section_id`,`year`,`semester`);
 
@@ -462,10 +487,22 @@ ALTER TABLE `teacher`
 --
 
 --
+-- 使用表AUTO_INCREMENT `application_transaction`
+--
+ALTER TABLE `application_transaction`
+  MODIFY `apply_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- 使用表AUTO_INCREMENT `assessment`
 --
 ALTER TABLE `assessment`
-  MODIFY `assessment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `assessment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- 使用表AUTO_INCREMENT `quit`
+--
+ALTER TABLE `quit`
+  MODIFY `quit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- 限制导出的表
@@ -481,8 +518,8 @@ ALTER TABLE `admin`
 -- 限制表 `application_transaction`
 --
 ALTER TABLE `application_transaction`
-  ADD CONSTRAINT `fk_ap_co` FOREIGN KEY (`course_id`) REFERENCES `course` (`course_id`),
-  ADD CONSTRAINT `fk_ap_st` FOREIGN KEY (`student_id`) REFERENCES `student` (`student_id`);
+  ADD CONSTRAINT `application_transaction_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `student` (`student_id`),
+  ADD CONSTRAINT `application_transaction_ibfk_2` FOREIGN KEY (`course_id`,`section_id`,`year`,`semester`) REFERENCES `section` (`course_id`, `section_id`, `year`, `semester`);
 
 --
 -- 限制表 `assessment`
