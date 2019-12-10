@@ -15,18 +15,23 @@ if(isset($_SESSION['username'])){
     $state = '已提交';
 
     if (sizeof($id) != 2){
-        echo '<script> alert("提交未成功，不能存在该课程"); window.location.href="SectionApplication.php"; </script>';
+        echo '<script> alert("提交未成功，不存在该课程"); window.location.href="SectionApplication.php"; </script>';
         exit(0);
     }
     $db = connect();
 
     // 检查是否存在课程
-    $stmt = $db->prepare("select course_id from section where course_id=? and section_id=? and year=? and semester=?");
+    $stmt = $db->prepare("select course_id,stu_num,max_stu from section where course_id=? and section_id=? and year=? and semester=?");
     $stmt->bind_param("sdds",  $id[0], $id[1], $_POST['year'], $_POST['semester']);
     $r = $stmt->execute();
-    $stmt->bind_result($rlt);
+    $stmt->bind_result($rlt,$num, $max);
     if(!$stmt->fetch()){
-        echo '<script> alert("提交未成功，不能存在该课程"); window.location.href="SectionApplication.php"; </script>';
+        echo '<script> alert("提交未成功，不存在该课程"); window.location.href="SectionApplication.php"; </script>';
+        $stmt->close();
+        $db->close();
+        exit(0);
+    } elseif ($num < $max){
+        echo '<script> alert("提交未成功，该课程有余量"); window.location.href="SectionApplication.php"; </script>';
         $stmt->close();
         $db->close();
         exit(0);
@@ -58,6 +63,18 @@ if(isset($_SESSION['username'])){
         exit(0);
     }
     $stmt->close();
+
+    $state2 = '已提交';
+    $stmt = $db->prepare("select course_id from application_transaction where student_id=? and course_id=? and section_id=? and year=? and semester=? and state=?");
+    $stmt->bind_param("ssddss", $_SESSION['username'], $id[0], $id[1], $_POST['year'], $_POST['semester'], $state2);
+    $r = $stmt->execute();
+    $stmt->bind_result($rlt);
+    if($stmt->fetch()){
+        echo '<script> alert("提交未成功，您正在申请该课程"); window.location.href="SectionApplication.php"; </script>';
+        $stmt->close();
+        $db->close();
+        exit(0);
+    }
 
     //检查是否超出教室容量
     $stmt = $db->prepare("select A.stu_num,B.capacity from section A, classroom B where course_id=? and section_id=? and year=? and semester=? and A.classroom_code=B.classroom_code");
