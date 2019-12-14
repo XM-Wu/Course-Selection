@@ -7,7 +7,7 @@ if (isset($_SESSION['username']) && $_SESSION['type'] == 'admin') {
 
     // 处理删除
     if(isset($_POST['delete'])){
-        $stmt = $db->prepare('delete from department where depart_name=?');
+        $stmt = $db->prepare('delete from major where major_name=?');
         $stmt->bind_param('s', $_POST['delete']);
         $stmt->execute();
         if(mysqli_stmt_error($stmt)) {
@@ -17,9 +17,9 @@ if (isset($_SESSION['username']) && $_SESSION['type'] == 'admin') {
         $stmt->close();
     }
     // 处理添加
-    elseif(isset($_POST['department_name'])){
-        $stmt = $db->prepare("insert into department (depart_name, depart_code) values (?, ?)");
-        $stmt->bind_param("ss", $_POST['department_name'], $_POST['department_code']); // 初始密码设为账号名
+    elseif(isset($_POST['major_name'])){
+        $stmt = $db->prepare("insert into major (major_name, department) values (?, ?)");
+        $stmt->bind_param("ss", $_POST['major_name'], $_POST['department']); // 初始密码设为账号名
         $stmt->execute();
         if (mysqli_stmt_error($stmt)) {
             echo '<script> alert("插入失败，查看是否存在冲突数据"); </script>';
@@ -31,7 +31,7 @@ if (isset($_SESSION['username']) && $_SESSION['type'] == 'admin') {
 
     $firstPage = 1;
 
-    $stmt = $db->prepare("select count(*) from department");
+    $stmt = $db->prepare("select count(*) from major");
     $stmt->execute();
     $stmt->bind_result($total_amount);
     $stmt->fetch();
@@ -47,13 +47,13 @@ if (isset($_SESSION['username']) && $_SESSION['type'] == 'admin') {
     $prePage = $currentPage - 1;
     $nextPage = $currentPage + 1;
 
-    $stmt = $db->prepare("select * from department order by depart_code limit ?,?");
+    $stmt = $db->prepare("select * from major order by major_name limit ?,?");
     $start = ($currentPage - 1) * 10;
     $len = $start + 1 + 10 > $total_amount ? $total_amount - $start : 10;
     $stmt->bind_param('ii', $start, $len);
     $stmt->execute();
 
-    $stmt->bind_result($department_name, $department_code);
+    $stmt->bind_result($major_name, $department);
     ?>
 
     <html>
@@ -95,8 +95,8 @@ if (isset($_SESSION['username']) && $_SESSION['type'] == 'admin') {
         <table class="table table-bordered table-striped">
             <thead>
             <tr>
+                <th>专业</th>
                 <th>学院</th>
-                <th>学院编号</th>
                 <th>操作</th>
             </tr>
             </thead>
@@ -105,11 +105,11 @@ if (isset($_SESSION['username']) && $_SESSION['type'] == 'admin') {
                 <?php
                 while ($stmt->fetch()) {
                     echo '<tr>';
-                    echo '<td>' . $department_name . '</td>';
-                    echo '<td>' . $department_code . '</td>';
+                    echo '<td>' . $major_name . '</td>';
+                    echo '<td>' . $department . '</td>';
                     echo '<td>';
-                    echo '<form action="DepartmentData.php" method="post">';
-                    echo '<input hidden name="delete" value="'. $department_name .'">';
+                    echo '<form action="MajorData.php" method="post">';
+                    echo '<input hidden name="delete" value="'. $major_name .'">';
                     echo '<button type="submit">删除</button>';
                     echo '</form>';
                     echo '</td>';
@@ -123,20 +123,20 @@ if (isset($_SESSION['username']) && $_SESSION['type'] == 'admin') {
         </table>
 
         <div class="pageButtonGroup">
-            <a href="DepartmentData.php?page=<?php echo $firstPage; ?>">
+            <a href="MajorData.php?page=<?php echo $firstPage; ?>">
                 <button class="pageButton">首页</button>
             </a>
-            <a href="DepartmentData.php?page=<?php echo $prePage; ?>">
+            <a href="MajorData.php?page=<?php echo $prePage; ?>">
                 <button class="pageButton"><<</button>
             </a>
             <?php
             if ($currentPage <= 3) {
                 for ($counter = 1; $counter <= 5 && $counter <= $totalPage; $counter++)
-                    echo '<a href="DepartmentData.php?page=' . $counter . '"><button class="pageButton">' . $counter . '</button></a>';
+                    echo '<a href="MajorData.php?page=' . $counter . '"><button class="pageButton">' . $counter . '</button></a>';
             } else if ($currentPage > 3) {
                 echo '...';
                 for ($counter = $currentPage - 2; $counter <= $currentPage + 2 && $counter <= $totalPage; $counter++)
-                    echo '<a href="DepartmentData.php?page=' . $counter . '"><button class="pageButton">' . $counter . '</button></a>';
+                    echo '<a href="MajorData.php?page=' . $counter . '"><button class="pageButton">' . $counter . '</button></a>';
 
             }
             if ($currentPage < $totalPage - 2) {
@@ -144,10 +144,10 @@ if (isset($_SESSION['username']) && $_SESSION['type'] == 'admin') {
             }
             ?>
 
-            <a href="DepartmentData.php?page=<?php echo $nextPage; ?>">
+            <a href="MajorData.php?page=<?php echo $nextPage; ?>">
                 <button class="pageButton">>></button>
             </a>
-            <a href="DepartmentData.php?page=<?php echo $totalPage; ?>">
+            <a href="MajorData.php?page=<?php echo $totalPage; ?>">
                 <button class="pageButton">末页</button>
             </a>
             <?php echo $currentPage; ?>/<?php echo $totalPage; ?>&nbsp;Pages
@@ -158,15 +158,15 @@ if (isset($_SESSION['username']) && $_SESSION['type'] == 'admin') {
             <table class="table table-bordered">
                 <thead>
                 <tr>
+                    <th>专业</th>
                     <th>学院</th>
-                    <th>学院代码</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <form action="DepartmentData.php" method="post">
-                        <td><input name="department_name"></td>
-                        <td><input name="department_code"></td>
+                    <form action="MajorData.php" method="post">
+                        <td><input name="major_name"></td>
+                        <td><input name="department"></td>
                         <td><button type="submit">插入</button></td>
                     </form>
                 </tr>

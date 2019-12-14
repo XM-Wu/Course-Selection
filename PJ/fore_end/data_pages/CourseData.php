@@ -7,7 +7,7 @@ if (isset($_SESSION['username']) && $_SESSION['type'] == 'admin') {
 
     // 处理删除
     if(isset($_POST['delete'])){
-        $stmt = $db->prepare('delete from department where depart_name=?');
+        $stmt = $db->prepare('delete from course where course_id=?');
         $stmt->bind_param('s', $_POST['delete']);
         $stmt->execute();
         if(mysqli_stmt_error($stmt)) {
@@ -17,9 +17,9 @@ if (isset($_SESSION['username']) && $_SESSION['type'] == 'admin') {
         $stmt->close();
     }
     // 处理添加
-    elseif(isset($_POST['department_name'])){
-        $stmt = $db->prepare("insert into department (depart_name, depart_code) values (?, ?)");
-        $stmt->bind_param("ss", $_POST['department_name'], $_POST['department_code']); // 初始密码设为账号名
+    elseif(isset($_POST['course_id'])){
+        $stmt = $db->prepare("insert into course (course_id, course_name, course_credit) values (?, ?, ?)");
+        $stmt->bind_param("ssd", $_POST['course_id'], $_POST['course_name'], $_POST['course_credit']); // 初始密码设为账号名
         $stmt->execute();
         if (mysqli_stmt_error($stmt)) {
             echo '<script> alert("插入失败，查看是否存在冲突数据"); </script>';
@@ -31,7 +31,7 @@ if (isset($_SESSION['username']) && $_SESSION['type'] == 'admin') {
 
     $firstPage = 1;
 
-    $stmt = $db->prepare("select count(*) from department");
+    $stmt = $db->prepare("select count(*) from course");
     $stmt->execute();
     $stmt->bind_result($total_amount);
     $stmt->fetch();
@@ -47,13 +47,13 @@ if (isset($_SESSION['username']) && $_SESSION['type'] == 'admin') {
     $prePage = $currentPage - 1;
     $nextPage = $currentPage + 1;
 
-    $stmt = $db->prepare("select * from department order by depart_code limit ?,?");
+    $stmt = $db->prepare("select * from course order by course_id limit ?,?");
     $start = ($currentPage - 1) * 10;
     $len = $start + 1 + 10 > $total_amount ? $total_amount - $start : 10;
     $stmt->bind_param('ii', $start, $len);
     $stmt->execute();
 
-    $stmt->bind_result($department_name, $department_code);
+    $stmt->bind_result($course_id, $course_name, $course_credit);
     ?>
 
     <html>
@@ -95,9 +95,11 @@ if (isset($_SESSION['username']) && $_SESSION['type'] == 'admin') {
         <table class="table table-bordered table-striped">
             <thead>
             <tr>
-                <th>学院</th>
-                <th>学院编号</th>
-                <th>操作</th>
+                <th>课程代码</th>
+                <th>课程名称</th>
+                <th>学分</th>
+                <th>开课情况</th>
+                <th>删除</th>
             </tr>
             </thead>
             <tbody>
@@ -105,11 +107,20 @@ if (isset($_SESSION['username']) && $_SESSION['type'] == 'admin') {
                 <?php
                 while ($stmt->fetch()) {
                     echo '<tr>';
-                    echo '<td>' . $department_name . '</td>';
-                    echo '<td>' . $department_code . '</td>';
+                    echo '<td>' . $course_id . '</td>';
+                    echo '<td>' . $course_name . '</td>';
+                    echo '<td>' . $course_credit . '</td>';
+
                     echo '<td>';
-                    echo '<form action="DepartmentData.php" method="post">';
-                    echo '<input hidden name="delete" value="'. $department_name .'">';
+                    echo '<form action="SectionData.php" method="post">';
+                    echo '<input hidden name="cid" value="'. $course_id .'">';
+                    echo '<button type="submit">查看开课</button>';
+                    echo '</form>';
+                    echo '</td>';
+
+                    echo '<td>';
+                    echo '<form action="CourseData.php" method="post">';
+                    echo '<input hidden name="delete" value="'. $course_id .'">';
                     echo '<button type="submit">删除</button>';
                     echo '</form>';
                     echo '</td>';
@@ -123,20 +134,20 @@ if (isset($_SESSION['username']) && $_SESSION['type'] == 'admin') {
         </table>
 
         <div class="pageButtonGroup">
-            <a href="DepartmentData.php?page=<?php echo $firstPage; ?>">
+            <a href="CourseData.php?page=<?php echo $firstPage; ?>">
                 <button class="pageButton">首页</button>
             </a>
-            <a href="DepartmentData.php?page=<?php echo $prePage; ?>">
+            <a href="CourseData.php?page=<?php echo $prePage; ?>">
                 <button class="pageButton"><<</button>
             </a>
             <?php
             if ($currentPage <= 3) {
                 for ($counter = 1; $counter <= 5 && $counter <= $totalPage; $counter++)
-                    echo '<a href="DepartmentData.php?page=' . $counter . '"><button class="pageButton">' . $counter . '</button></a>';
+                    echo '<a href="CourseData.php?page=' . $counter . '"><button class="pageButton">' . $counter . '</button></a>';
             } else if ($currentPage > 3) {
                 echo '...';
                 for ($counter = $currentPage - 2; $counter <= $currentPage + 2 && $counter <= $totalPage; $counter++)
-                    echo '<a href="DepartmentData.php?page=' . $counter . '"><button class="pageButton">' . $counter . '</button></a>';
+                    echo '<a href="CourseData.php?page=' . $counter . '"><button class="pageButton">' . $counter . '</button></a>';
 
             }
             if ($currentPage < $totalPage - 2) {
@@ -144,10 +155,10 @@ if (isset($_SESSION['username']) && $_SESSION['type'] == 'admin') {
             }
             ?>
 
-            <a href="DepartmentData.php?page=<?php echo $nextPage; ?>">
+            <a href="CourseData.php?page=<?php echo $nextPage; ?>">
                 <button class="pageButton">>></button>
             </a>
-            <a href="DepartmentData.php?page=<?php echo $totalPage; ?>">
+            <a href="CourseData.php?page=<?php echo $totalPage; ?>">
                 <button class="pageButton">末页</button>
             </a>
             <?php echo $currentPage; ?>/<?php echo $totalPage; ?>&nbsp;Pages
@@ -158,15 +169,17 @@ if (isset($_SESSION['username']) && $_SESSION['type'] == 'admin') {
             <table class="table table-bordered">
                 <thead>
                 <tr>
-                    <th>学院</th>
-                    <th>学院代码</th>
+                    <th>课程代码</th>
+                    <th>课程名称</th>
+                    <th>学分</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <form action="DepartmentData.php" method="post">
-                        <td><input name="department_name"></td>
-                        <td><input name="department_code"></td>
+                    <form action="CourseData.php" method="post">
+                        <td><input name="course_id"></td>
+                        <td><input name="course_name"></td>
+                        <td><input name="course_credit"></td>
                         <td><button type="submit">插入</button></td>
                     </form>
                 </tr>

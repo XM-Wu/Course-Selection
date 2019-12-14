@@ -216,6 +216,7 @@ if (isset($_SESSION["username"])) {
                                 <th>时间</th>
                                 <th>地点</th>
                                 <th>已选人数</th>
+                                <th>考试</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
@@ -245,6 +246,7 @@ if (isset($_SESSION["username"])) {
                                     echo '<td>' . $info['time'] . '</td>';
                                     echo '<td>' . $info['classroom_code'] . '</td>';
                                     echo '<td>' . $info['stu_num'] . '/' . $info['max_stu'] . '</td>';
+                                    echo '<td>' . $info['assessment'] . '</td>';
                                     echo ' <td><form method="get" action="SectionChoosing.php"><input hidden value="' . $co_id
                                         . '" name="select_course_id"><input hidden value="' . $se_id
                                         . '" name="select_section_id"><button type="submit">选课</button></form></td>';

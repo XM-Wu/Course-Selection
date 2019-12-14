@@ -50,7 +50,7 @@ if (isset($_SESSION['username'])) {
         <?php
     } elseif ($_SESSION["type"] == "admin") {
         ?>
-        <h1><a href="#">查询与修改</a></h1>
+        <h1><a href="DataMultiplication.php">查询与修改</a></h1>
         <h1><a href="InputData.php">数据导入</a></h1>
         <?php
 

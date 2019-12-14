@@ -6,6 +6,7 @@
 include_once("../lib/Classes/PHPExcel.php");
 include_once('../lib/Classes/PHPExcel/IOFactory.php');
 include_once("../util/Connection.php");
+include_once ("../util/Course.php");
 
 if ($_FILES['excel']['error'] > 0) {
     echo "Something wrong!";
@@ -34,13 +35,15 @@ if ($su != 'xls' && $su != 'xlsx') {
             foreach ($data as $v) {
                 if (count($v) != 6) { // 某行数据量不匹配
                     $need_roll_back = true;
+                    echo_error(0);
                     break;
                 }
                 $acc_type = "student";
                 $stmt = $db->prepare("insert into account (uid, password, acc_type) values (?, ?, ?)");
                 $stmt->bind_param("sss", $v[0], $v[0], $acc_type); // 初始密码设为账号名
-                $result = $stmt->execute();
-                if (!$result) {
+                $stmt->execute();
+                if (mysqli_stmt_error($stmt)) {
+                    echo_error(1);
                     $need_roll_back = true;
                     break;
                 }
@@ -48,7 +51,8 @@ if ($su != 'xls' && $su != 'xlsx') {
                 $stmt = $db->prepare("insert into student (student_id, name, enrollment, major, credit, gpa) values (?, ?, ?, ?, ?, ?)");
                 $stmt->bind_param("ssssss", $v[0], $v[1], $v[2], $v[3], $v[4], $v[5]);
                 $result = $stmt->execute();
-                if (!$result) {
+                if (mysqli_stmt_error($stmt)) {
+                    echo_error(1);
                     $need_roll_back = true;
                     break;
                 }
@@ -72,8 +76,8 @@ if ($su != 'xls' && $su != 'xlsx') {
                 $acc_type = "teacher";
                 $stmt = $db->prepare("insert into account (uid, password, acc_type) values (?, ?, ?)");
                 $stmt->bind_param("sss", $v[0], $v[0], $acc_type); // 初始密码设为账号名
-                $result = $stmt->execute();
-                if (!$result) {
+                $stmt->execute();
+                if (mysqli_stmt_error($stmt)) {
                     $need_roll_back = true;
                     echo_error(1);
                     break;
@@ -81,8 +85,8 @@ if ($su != 'xls' && $su != 'xlsx') {
 
                 $stmt = $db->prepare("insert into teacher (teacher_id, name, title, department) values (?, ?, ?, ?)");
                 $stmt->bind_param("ssss", $v[0], $v[1], $v[2], $v[3]);
-                $result = $stmt->execute();
-                if (!$result) {
+                $stmt->execute();
+                if (mysqli_stmt_error($stmt)) {
                     echo mysqli_error($db);
                     echo $v[0] . " " . $v[1] . " " . $v[2] . " " . $v[3] . "\n";
                     $need_roll_back = true;
@@ -130,9 +134,6 @@ if ($su != 'xls' && $su != 'xlsx') {
 
                     foreach ($seqs as $seq) {
                         $stmt = $db->prepare("select course_id,section_id,year,semester,teacher_id, classroom_code from section where year=? and semester=? and (course_id,section_id,year,semester) in (select course_id,section_id,year,semester from sec_time where day_of_week=? and lesson_seq=?)"); // 寻找同时间的所有课程
-//                        if(!$stmt){
-//                            die(mysqli_error($db));
-//                        }
                         $stmt->bind_param("dssd", $v[3], $v[4], $tmp[0], $seq);
                         $stmt->execute();
                         $stmt->bind_result($cid1, $sid1, $year1, $semester1,$teacher, $classroom);
@@ -238,9 +239,33 @@ if ($su != 'xls' && $su != 'xlsx') {
                     echo_error(0);
                     break;
                 }
+                // 更新课程成绩
                 $stmt = $db->prepare("update stu_take_sec set grade=? where student_id=? and course_id=? and section_id=? and year=? and semester=?");
                 $stmt->bind_param("sssdds", $v[1], $v[0], $_POST['course_id'], $_POST['section_id'], $_POST['year'], $_POST['semester']);
                 $rlt = $stmt->execute();
+                $stmt->close();
+
+                // 更新学生成绩
+                $stmt = $db->prepare("select A.course_credit,B.grade from course A, stu_take_sec B where B.student_id=? and A.course_id=B.course_id");
+                $stmt->bind_param("s", $v[0]);
+                $stmt->execute();
+                $stmt->bind_result($credit, $grade);
+                $son = 0;
+                $mon = 0;
+                while($stmt->fetch()){
+                    if($grade == null || $grade == '') continue;
+                    $son += $credit*toG($grade);
+                    $mon += $credit;
+                }
+                $stmt->close();
+
+                $gpa = $mon==0? 0:$son/$mon;
+
+                $stmt = $db->prepare("update student set credit=?,gpa=? where student_id=?");
+                $stmt->bind_param('dds',$mon, $gpa, $v[0]);
+                $stmt->execute();
+
+                $stmt->close();
 
                 if (mysqli_error($db) > 0 || !$rlt) {
                     $need_roll_back = true;
@@ -303,6 +328,22 @@ function echo_error($seq)
     }
 }
 
+function toG($grade){
+    switch ($grade){
+        case "A": return 4.0;
+        case "A-": return 3.7;
+        case "B+": return 3.2;
+        case "B": return 3.0;
+        case 'B-': return 2.7;
+        case 'C+': return 2.2;
+        case 'C': return 2.0;
+        case 'C-': return 1.7;
+        case 'D+': return 1.2;
+        case 'D': return 1;
+        case 'D-': return 0.7;
+        case 'F': return 0;
+    }
+}
 ?>
 
 </body>

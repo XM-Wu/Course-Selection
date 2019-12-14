@@ -44,10 +44,10 @@ function get_section_info($course_id, $section_id, $year, $semester)
     include_once("Connection.php");
     $mysqli = connect();
 
-    $stmt = $mysqli->prepare("select teacher_id, classroom_code, stu_num, max_stu from section where course_id=? and section_id=? and year=? and semester=?");
+    $stmt = $mysqli->prepare("select A.teacher_id, A.classroom_code, A.stu_num, A.max_stu,B.type,B.date,B.start_time,B.end_time,B.location from section A,assessment B where A.course_id=? and A.section_id=? and A.year=? and A.semester=? and A.assessment_id=B.assessment_id");
     $stmt->bind_param("ssdd", $course_id, $section_id, $year, $semester);
     $stmt->execute();
-    $stmt->bind_result($tid, $cc, $sn, $ms);
+    $stmt->bind_result($tid, $cc, $sn, $ms, $atype,$adate,$astart,$aend,$alocalation);
     $stmt->fetch();
     $info["course_name"] = get_course_name($course_id);
     $info["teacher_name"] = get_teacher_name($tid);
@@ -55,6 +55,7 @@ function get_section_info($course_id, $section_id, $year, $semester)
     $info["stu_num"] = $sn;
     $info["max_stu"] = $ms;
 
+    // 上课时间
     // 代码转字符串
     $time_str = '';
     $time = get_section_time($course_id, $section_id, $year, $semester);
@@ -78,6 +79,18 @@ function get_section_info($course_id, $section_id, $year, $semester)
     }
     $info["time"] = $time_str;
 
+
+    //考试情况
+    $a_str='';
+    $a_str .= $atype;
+    $a_str .= ':';
+    $a_str .= $adate;
+
+    if($atype=='exam'){
+        $a_str .= '; 时间：' . $astart . '-' . $aend . '；地点：'.$alocalation;
+    }
+
+    $info['assessment'] = $a_str;
 
     $stmt->close();
     $mysqli->close();
@@ -266,6 +279,9 @@ function check_conf($student_id, $course_id, $section_id, $year, $semester)
     return false;
 }
 
+/**
+ * 检查人数是否超出上限
+ */
 function check_num($course_id, $section_id, $year, $semester)
 {
     include_once("Connection.php");
@@ -333,3 +349,4 @@ function quit_course($student_id, $course_id, $section_id, $year, $semester)
     $stmt->close();
     $mysqli->close();
 }
+

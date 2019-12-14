@@ -5,22 +5,22 @@
  * Date: 2019/12/1
  * Time: 22:13
  */
-function toG($grade){
-    switch ($grade){
-        case "A": return 4.0;
-        case "A-": return 3.7;
-        case "B+": return 3.2;
-        case "B": return 3.0;
-        case 'B-': return 2.7;
-        case 'C+': return 2.2;
-        case 'C': return 2.0;
-        case 'C-': return 1.7;
-        case 'D+': return 1.2;
-        case 'D': return 1;
-        case 'D-': return 0.7;
-        case 'F': return 0;
-    }
-}
+//function toG($grade){
+//    switch ($grade){
+//        case "A": return 4.0;
+//        case "A-": return 3.7;
+//        case "B+": return 3.2;
+//        case "B": return 3.0;
+//        case 'B-': return 2.7;
+//        case 'C+': return 2.2;
+//        case 'C': return 2.0;
+//        case 'C-': return 1.7;
+//        case 'D+': return 1.2;
+//        case 'D': return 1;
+//        case 'D-': return 0.7;
+//        case 'F': return 0;
+//    }
+//}
 session_start();
 if (isset($_SESSION["username"])) {
     ?>
@@ -66,7 +66,7 @@ if (isset($_SESSION["username"])) {
             $stmt->bind_result($course_id, $section_id, $year, $semester, $classromm_code);
             while ($stmt->fetch()) {
                 echo '<tr>';
-                echo '<td>' . $course_id . $section_id . '</td>';
+                echo '<td>' . $course_id .'.'. $section_id . '</td>';
                 echo '<td>' . get_course_name($course_id) . '</td>';
                 echo '<td>' . $year . ' ' . $semester . '</td>';
                 echo '<td>' . get_grade($_SESSION["username"], $course_id, $section_id, $year, $semester) . '</td>';
@@ -79,23 +79,28 @@ if (isset($_SESSION["username"])) {
             <tr class="table-primary">
                 <th>学分</th>
                 <th> <?php
-                    $stmt = $mysqli->prepare("select A.course_credit,B.grade from course A, stu_take_sec B where B.student_id=? and A.course_id=B.course_id");
+                    //                    $stmt = $mysqli->prepare("select A.course_credit,B.grade from course A, stu_take_sec B where B.student_id=? and A.course_id=B.course_id");
+                    //                    $stmt->bind_param("s", $_SESSION['username']);
+                    //                    $stmt->execute();
+                    //                    $stmt->bind_result($credit, $grade);
+                    //                    $son = 0;
+                    //                    $mon = 0;
+                    //                    while($stmt->fetch()){
+                    //                        if($grade == null || $grade == '') continue;
+                    //                        $son += $credit*toG($grade);
+                    //                        $mon += $credit;
+                    //                    }
+                    $stmt = $mysqli->prepare("select credit,gpa from student where student_id=?");
                     $stmt->bind_param("s", $_SESSION['username']);
                     $stmt->execute();
-                    $stmt->bind_result($credit, $grade);
-                    $son = 0;
-                    $mon = 0;
-                    while($stmt->fetch()){
-                        if($grade == null || $grade == '') continue;
-                        $son += $credit*toG($grade);
-                        $mon += $credit;
-                    }
+                    $stmt->bind_result($credit, $gpa);
+                    $stmt->fetch();
                     $mysqli->close();
 
-                    echo $mon;
+                    echo $credit;
                     ?></th>
                 <th>GPA</th>
-                <th><?php echo $son/$mon; ?></th>
+                <th><?php echo $gpa; ?></th>
             </tr>
             </tbody>
         </table>
