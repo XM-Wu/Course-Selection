@@ -17,12 +17,13 @@ function connect() {
 //    mysqli_select_db($conn, "course_selection");
 //    return $conn;
 
-    $mysqli = new mysqli("localhost", "root", "", "course_selection");
+    $mysqli = new mysqli("localhost", "root", "", "university_system");
 
     /* 检查连接 */
     if (mysqli_connect_errno()) {
         printf("Connect failed: %s\n", mysqli_connect_error());
         exit();
     }
+    $mysqli->set_charset("utf8");
     return $mysqli;
 }
