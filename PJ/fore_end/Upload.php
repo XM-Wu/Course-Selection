@@ -52,7 +52,7 @@ if ($su != 'xls' && $su != 'xlsx') {
                 $stmt->bind_param("ssssss", $v[0], $v[1], $v[2], $v[3], $v[4], $v[5]);
                 $result = $stmt->execute();
                 if (mysqli_stmt_error($stmt)) {
-                    echo_error(1);
+                    echo_error(8);
                     $need_roll_back = true;
                     break;
                 }
@@ -322,6 +322,9 @@ function echo_error($seq)
             break;
         case 7:
             echo "某条数据无法更新数据库，学生是否匹配";
+            break;
+        case 8:
+            echo "插入失败，请查相关信息是否存在";
             break;
         default:
             echo "unknown error\n";

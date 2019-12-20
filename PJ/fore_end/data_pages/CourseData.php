@@ -18,8 +18,8 @@ if (isset($_SESSION['username']) && $_SESSION['type'] == 'admin') {
     }
     // 处理添加
     elseif(isset($_POST['course_id'])){
-        $stmt = $db->prepare("insert into course (course_id, course_name, course_credit) values (?, ?, ?)");
-        $stmt->bind_param("ssd", $_POST['course_id'], $_POST['course_name'], $_POST['course_credit']); // 初始密码设为账号名
+        $stmt = $db->prepare("insert into course (course_id, course_name, course_credit,department) values (?, ?, ?,?)");
+        $stmt->bind_param("ssds", $_POST['course_id'], $_POST['course_name'], $_POST['course_credit'], $_POST['department']); // 初始密码设为账号名
         $stmt->execute();
         if (mysqli_stmt_error($stmt)) {
             echo '<script> alert("插入失败，查看是否存在冲突数据"); </script>';
@@ -53,7 +53,7 @@ if (isset($_SESSION['username']) && $_SESSION['type'] == 'admin') {
     $stmt->bind_param('ii', $start, $len);
     $stmt->execute();
 
-    $stmt->bind_result($course_id, $course_name, $course_credit);
+    $stmt->bind_result($course_id, $course_name, $course_credit, $department);
     ?>
 
     <html>
@@ -98,6 +98,7 @@ if (isset($_SESSION['username']) && $_SESSION['type'] == 'admin') {
                 <th>课程代码</th>
                 <th>课程名称</th>
                 <th>学分</th>
+                <th>学院</th>
                 <th>开课情况</th>
                 <th>删除</th>
             </tr>
@@ -110,6 +111,7 @@ if (isset($_SESSION['username']) && $_SESSION['type'] == 'admin') {
                     echo '<td>' . $course_id . '</td>';
                     echo '<td>' . $course_name . '</td>';
                     echo '<td>' . $course_credit . '</td>';
+                    echo '<td>' . $department . '</td>';
 
                     echo '<td>';
                     echo '<form action="SectionData.php" method="post">';
@@ -172,6 +174,8 @@ if (isset($_SESSION['username']) && $_SESSION['type'] == 'admin') {
                     <th>课程代码</th>
                     <th>课程名称</th>
                     <th>学分</th>
+                    <th>学院</th>
+                    <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -180,6 +184,7 @@ if (isset($_SESSION['username']) && $_SESSION['type'] == 'admin') {
                         <td><input name="course_id"></td>
                         <td><input name="course_name"></td>
                         <td><input name="course_credit"></td>
+                        <td><input name="department"></td>
                         <td><button type="submit">插入</button></td>
                     </form>
                 </tr>
