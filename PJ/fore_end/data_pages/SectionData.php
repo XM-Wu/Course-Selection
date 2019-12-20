@@ -215,8 +215,8 @@ if (isset($_SESSION['username']) && $_SESSION['type'] == 'admin') {
                     <th>课程代码</th>
                     <th>开课代码</th>
                     <th>年份</th>
-                    <th>教师代码</th>
-                    <th>教师</th>
+                    <th>学期</th>
+                    <th>教师工号</th>
                     <th>已选学生人数</th>
                     <th>最大学生人数</th>
                     <th>考试</th>
