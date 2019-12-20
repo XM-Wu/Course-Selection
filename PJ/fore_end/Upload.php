@@ -122,7 +122,26 @@ if ($su != 'xls' && $su != 'xlsx') {
                     echo_error(3);
                     break;
                 }
-                $stmt->close(); // important
+                $stmt->close();
+
+                // 检查教室人数和最大人数是否冲突
+                $stmt = $db->prepare("select capacity from classroom where classroom_code=?");
+                $stmt->bind_param("s", $v[7]);
+                $stmt->execute();
+                $stmt->bind_result($the_cap);
+                if (!$stmt->fetch()) {
+                    printf('数据行：数据行：%s.%s, %s, %s, %s, %s, %s, %s, %s 没有该教室', $v[0], $v[1], $v[2], $v[3], $v[4], $v[5], $v[6], $v[7], $v[8]);
+                    $need_roll_back = true;
+                    $stmt->close();
+                    break;
+                }
+                if($the_cap <= $v[6]){
+                    printf('数据行：数据行：%s.%s, %s, %s, %s, %s, %s, %s, %s 教室最大容量小于最大选课人数', $v[0], $v[1], $v[2], $v[3], $v[4], $v[5], $v[6], $v[7], $v[8]);
+                    $need_roll_back = true;
+                    $stmt->close();
+                    break;
+                }
+                $stmt->close();
 
                 // 检查同时间是否有同教室的课程 和 相同时间是否有同一个教师的课
                 // 未提交可以检查到
