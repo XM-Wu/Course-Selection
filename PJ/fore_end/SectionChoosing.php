@@ -304,7 +304,6 @@ if (isset($_SESSION["username"])) {
                         <?php
                         while ($stmt->fetch()) {
                             // 建立节次到课程的映射
-                            echo 'build';
                             $time = get_section_time($cid, $sid, $current_year, $current_semester);
                             $name = get_course_name($cid);
                             foreach ($time as $t) {

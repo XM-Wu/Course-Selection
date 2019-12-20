@@ -135,7 +135,7 @@ if ($su != 'xls' && $su != 'xlsx') {
                     $stmt->close();
                     break;
                 }
-                if($the_cap <= $v[6]){
+                if($the_cap < $v[6]){
                     printf('数据行：数据行：%s.%s, %s, %s, %s, %s, %s, %s, %s 教室最大容量小于最大选课人数', $v[0], $v[1], $v[2], $v[3], $v[4], $v[5], $v[6], $v[7], $v[8]);
                     $need_roll_back = true;
                     $stmt->close();
