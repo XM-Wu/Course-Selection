@@ -22,7 +22,7 @@ if (isset($_SESSION['username']) && $_SESSION['type'] == 'admin') {
             $stmt->execute();
             if (mysqli_stmt_error($stmt)) {
                 $need_roll_back = true;
-                echo '<script> alert("课程删除失败，存在关联数据"); </script>';
+                echo '<script> alert("'.mysqli_stmt_error($stmt).'课程删除失败，存在关联数据"); </script>';
             }
             $stmt->close();
 
