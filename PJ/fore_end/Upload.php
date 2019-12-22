@@ -234,7 +234,7 @@ if ($su != 'xls' && $su != 'xlsx') {
                 $stmt = $db->prepare("update assessment set date=?,start_time=?,end_time=?,location=? where assessment_id=(select assessment_id from section where course_id=? and section_id=? and year=? and semester=?)");
                 $stmt->bind_param('sssssdds', $v[4], $v[5], $v[6], $v[7], $v[0], $v[1], $v[2], $v[3]);
                 $rlt = $stmt->execute();
-                if (mysqli_error($db) > 0 || !$rlt) {
+                if (mysqli_error($db) > 0 || !$rlt || $stmt->affected_rows==0) {
                     $need_roll_back = true;
                     echo_error(6);
                     break;
